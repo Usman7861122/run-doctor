@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Hero from "@/components/sections/Hero.astro";
+import About from "@/components/sections/About.astro";
+import Staff from "@/components/sections/Staff.astro";
+import FlipGrid from "@/components/sections/FlipGrid.astro";
+import Physicians from "@/components/sections/Physicians.astro";
+import MaurerWork from "@/components/sections/MaurerWork.astro";
+import Photography from "@/components/sections/Photography.astro";
+import Insurance from "@/components/sections/Insurance.astro";
+import Providers from "@/components/sections/Providers.astro";
+import Oofos from "@/components/sections/Oofos.astro";
+import Blog from "@/components/sections/Blog.astro";
+import Testimonials from "@/components/sections/Testimonials.astro";
+import Contact from "@/components/sections/Contact.astro";
+import Footer from "@/components/sections/Footer.astro";
+import { conditions, treatments } from "@/data/site";
+---
+
+<BaseLayout
+  title="Washington Foot & Ankle Sports Medicine | Podiatrist in Kirkland, WA"
+  description="Podiatry and sports medicine physicians in Kirkland, WA. Expert care for heel pain, plantar fasciitis, bunions, Achilles tendonitis, custom orthotics and foot & ankle surgery."
+>
+  <a
+    href="#main"
+    class="sr-only z-[60] rounded-full bg-ember-500 px-5 py-3 font-semibold text-navy-950 focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+  >
+    Skip to content
+  </a>
+  <Header />
+  <main id="main">
+    <Hero />
+    <About />
+    <Staff />
+    <FlipGrid
+      id="conditions"
+      eyebrow="Conditions"
+      title="Conditions we treat."
+      intro="From everyday aches to sports injuries, we diagnose the cause and treat it at the source."
+      items={conditions}
+      viewMoreLabel="View All Conditions"
+      viewMoreHref="#"
+      tone="tint"
+    />
+    <FlipGrid
+      id="treatments"
+      eyebrow="Treatments"
+      title="Treatments that get results."
+      intro="Personal plans that blend conservative care with advanced surgical options when needed."
+      items={treatments}
+      viewMoreLabel="View All Treatments"
+      viewMoreHref="#"
+    />
+    <Physicians />
+    <MaurerWork />
+    <Photography />
+    <Insurance />
+    <Providers />
+    <Oofos />
+    <Blog />
+    <Testimonials />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

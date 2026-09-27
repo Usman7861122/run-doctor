@@ -1,0 +1,79 @@
+---
+import Img from "@/components/ui/Img.astro";
+import Icon from "@/components/ui/Icon.astro";
+import FadeIn from "@/components/react/FadeIn";
+import { aboutPoints, images, stats } from "@/data/site";
+---
+
+<section id="about" class="section overflow-hidden">
+  <div class="container-x grid items-center gap-16 lg:grid-cols-2">
+    <FadeIn client:visible className="relative">
+      <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-navy-100">
+        <Img
+          src={images.about}
+          alt="Close up of running shoes on a trail"
+          width={1000}
+          height={1250}
+          class="size-full object-cover"
+        />
+      </div>
+      <div class="absolute -right-4 -bottom-10 hidden w-56 overflow-hidden rounded-3xl border-8 border-sand-50 shadow-2xl sm:block lg:-right-10">
+        <Img
+          src={images.aboutSmall}
+          alt="Doctor reviewing a patient scan"
+          width={600}
+          height={600}
+          class="aspect-square size-full object-cover"
+        />
+      </div>
+      <div class="absolute top-8 -left-4 rounded-2xl bg-navy-900 px-6 py-5 text-white shadow-xl sm:-left-8">
+        <p class="font-serif text-3xl text-ember-400">The Run Doctor</p>
+        <p class="text-xs tracking-widest text-white/70 uppercase">
+          Kirkland, WA
+        </p>
+      </div>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.1}>
+      <p class="eyebrow">About Our Practice</p>
+      <h2 class="h-section">
+        Care that looks at the <em class="text-ember-600">whole</em> athlete.
+      </h2>
+      <p class="mt-6 text-lg text-muted">
+        Washington Foot & Ankle Sports Medicine offers conservative and surgical
+        care for the foot and ankle. Our focus is on preventing the wear and
+        tear injuries that keep people from doing what they love.
+      </p>
+      <p class="mt-4 text-muted">
+        Runners, athletes, busy parents and active retirees all come to us for
+        pain relief and a plan to stay active. We work with you as a partner,
+        starting with a careful history, a biomechanical exam and gait analysis.
+      </p>
+
+      <ul class="mt-10 space-y-5">
+        {aboutPoints.map((p) => (
+          <li class="flex gap-4">
+            <span class="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-ember-100 text-ember-600">
+              <Icon name="check" class="size-4" />
+            </span>
+            <span>
+              <span class="block font-semibold text-navy-900">{p.title}</span>
+              <span class="text-muted">{p.text}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-navy-900/10 pt-8">
+        {stats.map((s) => (
+          <div class="flex flex-col-reverse gap-1">
+            <dt class="text-xs tracking-wider text-muted uppercase">
+              {s.label}
+            </dt>
+            <dd class="font-serif text-4xl text-navy-900">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </FadeIn>
+  </div>
+</section>

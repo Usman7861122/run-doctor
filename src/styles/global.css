@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (no Google Fonts request, faster + private) */
+@import "@fontsource/dm-serif-display/latin-400.css";
+@import "@fontsource/dm-serif-display/latin-400-italic.css";
+@import "@fontsource-variable/inter";
+
+/* ------------------------------------------------------------------
+   Design tokens. Change brand colors here and the whole site updates.
+   Blue = trust / medical. Orange = energy / sport / calls to action.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-navy-950: #081a2e;
+  --color-navy-900: #0d2742;
+  --color-navy-800: #133456;
+  --color-navy-700: #1b4570;
+  --color-navy-100: #dde7f2;
+  --color-navy-50: #f0f5fa;
+
+  --color-ember-600: #b8521a; /* orange for text on light bg (AA contrast) */
+  --color-ember-500: #e0712c; /* main orange */
+  --color-ember-400: #f08c4a;
+  --color-ember-100: #fde8d8;
+  --color-ember-50: #fff5ee;
+
+  --color-sand-50: #fbf8f4; /* warm off-white page background */
+  --color-sand-100: #f4eee6;
+
+  --color-ink: #16202c; /* body text */
+  --color-muted: #55606e; /* secondary text */
+
+  --font-serif: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-sand-50 text-ink font-sans text-base leading-relaxed;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-navy-900 font-serif font-normal tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-ember-500 outline-2 outline-offset-2;
+  }
+  ::selection {
+    @apply bg-ember-100 text-navy-900;
+  }
+}
+
+/* Reusable component classes (Tailwind v4 custom utilities) */
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility section {
+  @apply py-20 sm:py-28;
+}
+@utility eyebrow {
+  @apply text-ember-600 inline-flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase;
+  &::before {
+    content: "";
+    @apply h-px w-8 bg-current;
+  }
+}
+@utility h-section {
+  @apply mt-4 text-4xl leading-[1.1] sm:text-5xl;
+}
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 text-sm font-semibold tracking-wide transition duration-300 ease-(--ease-elegant) active:scale-[0.97];
+}
+@utility btn-primary {
+  @apply btn bg-ember-500 text-navy-950 shadow-ember-500/20 hover:bg-ember-400 shadow-lg;
+}
+@utility btn-dark {
+  @apply btn bg-navy-900 hover:bg-navy-700 text-white;
+}
+@utility btn-outline {
+  @apply btn border-navy-900/20 text-navy-900 hover:border-navy-900 hover:bg-navy-900 border hover:text-white;
+}
+@utility btn-ghost-light {
+  @apply btn hover:text-navy-900 border border-white/40 text-white backdrop-blur-sm hover:bg-white;
+}
+@utility link-arrow {
+  @apply text-ember-600 hover:text-navy-900 inline-flex items-center gap-2 text-sm font-semibold transition-colors;
+}
+
+/* Flip cards (Conditions & Treatments) */
+.flip {
+  perspective: 1400px;
+}
+.flip-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-elegant);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
+@media (hover: hover) {
+  .flip:hover .flip-inner {
+    transform: rotateY(180deg);
+  }
+}
+.flip:focus-within .flip-inner,
+.flip.is-flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Fixed-window parallax. iOS does not support fixed backgrounds, so
+   touch devices get a normal cover image instead. */
+.parallax {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .flip-inner {
+    transition: none;
+  }
+}

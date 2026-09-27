@@ -1,0 +1,56 @@
+---
+import Img from "@/components/ui/Img.astro";
+import Icon from "@/components/ui/Icon.astro";
+import HeroText from "@/components/react/HeroText";
+import { images, practice } from "@/data/site";
+---
+
+<section
+  id="top"
+  class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-navy-950 pt-28 pb-16 sm:items-center sm:pb-24"
+>
+  <Img
+    src={images.hero}
+    alt="Runner on an open road at sunrise"
+    width={2000}
+    height={1333}
+    eager
+    class="hero-img absolute inset-0 -z-20 size-full object-cover"
+  />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-navy-950/10"></div>
+  <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
+
+  <div class="container-x">
+    <HeroText client:load />
+  </div>
+
+  <!-- Rating badge -->
+  <div class="absolute right-8 bottom-10 hidden items-center gap-4 rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-white backdrop-blur-md lg:flex">
+    <div class="flex text-ember-400">
+      {Array.from({ length: 5 }).map(() => (
+        <Icon name="star" class="size-4 fill-current" />
+      ))}
+    </div>
+    <div class="text-sm leading-tight">
+      <span class="font-semibold">{practice.rating.score} / 5</span>
+      <span class="block text-white/70">
+        {practice.rating.count} patient reviews
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Slow cinematic zoom on the hero image */
+  .hero-img {
+    animation: heroZoom 18s var(--ease-elegant) both;
+  }
+  @keyframes heroZoom {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+</style>

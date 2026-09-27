@@ -1,0 +1,58 @@
+---
+import Img from "@/components/ui/Img.astro";
+import Icon from "@/components/ui/Icon.astro";
+import FadeIn from "@/components/react/FadeIn";
+import { images } from "@/data/site";
+---
+
+<section id="oofos" class="section">
+  <div class="container-x">
+    <FadeIn client:visible>
+      <div class="relative grid overflow-hidden rounded-[2.5rem] bg-ember-500 lg:grid-cols-2">
+        <div class="relative z-10 p-10 sm:p-14 lg:p-20">
+          <p class="eyebrow text-navy-950!">Proud Affiliates with OOFOS</p>
+          <h2 class="mt-5 text-4xl leading-tight text-navy-950! sm:text-5xl">
+            Recovery starts with what you put on your feet.
+          </h2>
+          <p class="mt-6 max-w-lg text-lg text-navy-950/80">
+            We are proud affiliates of OOFOS, a brand of revolutionary, healthy
+            and versatile recovery sandals, clogs and shoes. They are podiatrist
+            recommended and available in our office.
+          </p>
+          <ul class="mt-8 grid gap-3 text-navy-950 sm:grid-cols-2">
+            {[
+              "Absorbs more impact",
+              "Less stress on joints",
+              "Great after a run",
+              "Try a pair in office",
+            ].map((t) => (
+              <li class="flex items-center gap-3 font-medium">
+                <Icon name="check" class="size-5" />
+                {t}
+              </li>
+            ))}
+          </ul>
+          <a
+            href="https://www.oofos.com"
+            target="_blank"
+            rel="noopener"
+            class="btn-dark mt-10"
+          >
+            Discover OOFOS
+            <Icon name="arrow" class="size-4" />
+          </a>
+        </div>
+        <div class="relative min-h-80 lg:min-h-full">
+          <Img
+            src={images.oofos}
+            alt="Comfortable recovery footwear"
+            width={1200}
+            height={1200}
+            class="absolute inset-0 size-full object-cover"
+          />
+          <div class="absolute inset-y-0 left-0 hidden w-32 bg-gradient-to-r from-ember-500 to-transparent lg:block"></div>
+        </div>
+      </div>
+    </FadeIn>
+  </div>
+</section>

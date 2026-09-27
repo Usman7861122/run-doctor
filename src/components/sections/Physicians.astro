@@ -1,0 +1,41 @@
+---
+import FadeIn from "@/components/react/FadeIn";
+import { images } from "@/data/site";
+---
+
+<!-- Full-bleed fixed-window parallax -->
+<section
+  id="physicians"
+  class="parallax relative isolate flex min-h-[85vh] items-center py-28"
+  style={`background-image: url('${images.physiciansBg}'), url('/images/placeholder.svg');`}
+  aria-labelledby="physicians-title"
+>
+  <div class="absolute inset-0 -z-10 bg-navy-950/70"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-navy-950/40 via-transparent to-navy-950/60"></div>
+
+  <div class="container-x">
+    <FadeIn client:visible className="mx-auto max-w-3xl text-center">
+      <p class="eyebrow justify-center text-ember-400!">Our Physicians</p>
+      <h2
+        id="physicians-title"
+        class="mt-6 text-5xl leading-[1.05] text-white! sm:text-7xl"
+      >
+        Doctors who <em class="text-ember-400">run</em>, ski and ride, just like
+        you.
+      </h2>
+      <p class="mx-auto mt-8 max-w-2xl text-lg text-white/80">
+        Dr. Lawrence Maurer and Dr. Peter Vincent are foot and ankle surgeons
+        who understand the drive to stay active. They combine sports medicine,
+        biomechanics and surgical skill to get you back to your life.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="#providers" class="btn-primary">
+          Choose Your Provider
+        </a>
+        <a href="#contact" class="btn-ghost-light">
+          Request a Visit
+        </a>
+      </div>
+    </FadeIn>
+  </div>
+</section>

@@ -1,0 +1,580 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import { menu } from "@/data/menu";
+import { practice } from "@/data/site";
+
+const chevron =
+  '<svg viewBox="0 0 24 24" class="chev size-3.5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+const ext = (external?: boolean) =>
+  external ? { target: "_blank", rel: "noopener" } : {};
+---
+
+<header
+  id="site-header"
+  class="group/header fixed inset-x-0 top-0 z-50"
+  data-solid="false"
+>
+  <!-- Background layer (kept separate so the blur doesn't trap fixed children) -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-x-0 top-0 h-20 bg-sand-50/95 opacity-0 shadow-[0_1px_0_rgba(13,39,66,0.08)] backdrop-blur-lg transition-opacity duration-500 group-data-[solid=true]/header:opacity-100"
+  ></div>
+  <div class="container-x relative flex h-20 items-center justify-between gap-6">
+    <!-- Logo -->
+    <a
+      href="/"
+      class="flex shrink-0 items-center gap-3"
+      aria-label={`${practice.name}, home`}
+    >
+      <span class="grid size-11 place-items-center rounded-full bg-ember-500 font-serif text-xl text-navy-950">
+        W
+      </span>
+      <span class="leading-tight">
+        <span class="block font-serif text-lg text-white transition-colors group-data-[solid=true]/header:text-navy-900">
+          Washington Foot & Ankle
+        </span>
+        <span class="block text-[0.7rem] font-semibold tracking-[0.2em] text-white/70 uppercase transition-colors group-data-[solid=true]/header:text-muted">
+          Sports Medicine
+        </span>
+      </span>
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {menu.map((item, i) =>
+          item.kind === "link" ? (
+            <li>
+              <a href={item.href} class="nav-trigger">
+                {item.label}
+              </a>
+            </li>
+          ) : (
+            <li
+              class:list={["menu-item", item.kind === "drop" && "relative"]}
+              data-menu-item
+              data-open="false"
+            >
+              <button
+                type="button"
+                class="nav-trigger"
+                aria-expanded="false"
+                aria-controls={`panel-${i}`}
+                data-menu-trigger
+              >
+                {item.label}
+                <Fragment set:html={chevron} />
+              </button>
+
+              {item.kind === "mega" ? (
+                <div
+                  id={`panel-${i}`}
+                  class="menu-panel mega fixed inset-x-0 top-20"
+                  data-menu-panel
+                >
+                  <div class="container-x">
+                    <div class="overflow-hidden rounded-b-[2rem] bg-white shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5">
+                      <div class="grid grid-cols-12">
+                        <div class="col-span-8 grid grid-cols-4 gap-8 p-10 xl:col-span-9">
+                          {item.columns.map((col, c) => (
+                            <div class="menu-col" style={`--d:${c * 45}ms`}>
+                              <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">
+                                {col.title}
+                              </p>
+                              <ul class="mt-4 space-y-0.5">
+                                {col.links.map((l) => (
+                                  <li>
+                                    <a href={l.href} class="mega-link">
+                                      {l.label}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                        <a
+                          href={item.feature.cta.href}
+                          class="group/feat relative col-span-4 flex min-h-80 flex-col justify-end overflow-hidden bg-navy-900 p-8 text-white xl:col-span-3"
+                        >
+                          <img
+                            src={item.feature.img}
+                            alt=""
+                            loading="lazy"
+                            class="absolute inset-0 size-full object-cover opacity-60 transition duration-700 ease-(--ease-elegant) group-hover/feat:scale-105 group-hover/feat:opacity-45"
+                            onerror="this.style.display='none'"
+                          />
+                          <span class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-transparent" />
+                          <span class="relative">
+                            <span class="text-xs font-semibold tracking-[0.2em] text-ember-400 uppercase">
+                              {item.feature.eyebrow}
+                            </span>
+                            <span class="mt-2 block font-serif text-3xl leading-tight">
+                              {item.feature.title}
+                            </span>
+                            <span class="mt-2 block text-sm text-white/75">
+                              {item.feature.text}
+                            </span>
+                            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ember-400">
+                              {item.feature.cta.label}
+                              <Icon
+                                name="arrow"
+                                class="size-4 transition-transform group-hover/feat:translate-x-1"
+                              />
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                      <div class="flex items-center justify-between gap-6 border-t border-navy-900/5 bg-sand-50 px-10 py-4 text-sm">
+                        <p class="text-muted">
+                          Same week appointments are often available.
+                        </p>
+                        <a
+                          href={practice.phoneHref}
+                          class="inline-flex min-h-11 items-center gap-2 font-semibold text-navy-900 hover:text-ember-600"
+                        >
+                          <Icon name="phone" class="size-4 text-ember-600" />
+                          Call {practice.phone}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  id={`panel-${i}`}
+                  class="menu-panel drop absolute top-full left-1/2 pt-4"
+                  data-menu-panel
+                >
+                  <div
+                    class:list={[
+                      "flex overflow-hidden rounded-3xl bg-white shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5",
+                      item.aside ? "w-[36rem]" : "w-80",
+                    ]}
+                  >
+                    <ul class="flex-1 p-3">
+                      {item.links.map((l) => (
+                        <li>
+                          <a
+                            href={l.href}
+                            class="drop-link group/drop"
+                            {...ext(l.external)}
+                          >
+                            <span class="flex items-center gap-2 font-semibold text-navy-900">
+                              {l.label}
+                              {l.external && (
+                                <span class="sr-only">
+                                  (opens in a new tab)
+                                </span>
+                              )}
+                              <Icon
+                                name="arrow"
+                                class="size-3.5 -translate-x-1 text-ember-600 opacity-0 transition duration-300 group-hover/drop:translate-x-0 group-hover/drop:opacity-100"
+                              />
+                            </span>
+                            {l.note && (
+                              <span class="mt-0.5 block text-sm text-muted">
+                                {l.note}
+                              </span>
+                            )}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    {item.aside && (
+                      <div class="flex w-52 flex-col justify-between bg-navy-900 p-6 text-white">
+                        <div>
+                          <p class="font-serif text-2xl">{item.aside.title}</p>
+                          <p class="mt-2 text-sm text-white/70">
+                            {item.aside.text}
+                          </p>
+                        </div>
+                        <a
+                          href={item.aside.cta.href}
+                          class="btn-primary mt-6 min-h-11 px-5"
+                        >
+                          {item.aside.cta.label}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </li>
+          ),
+        )}
+      </ul>
+    </nav>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-3">
+      <a
+        href={practice.phoneHref}
+        class="hidden items-center gap-2 text-sm font-semibold text-white transition-colors group-data-[solid=true]/header:text-navy-900 xl:flex"
+      >
+        <Icon name="phone" class="size-4 text-ember-400" />
+        {practice.phone}
+      </a>
+      <a href="/#contact" class="btn-primary hidden sm:inline-flex">
+        Book Now
+      </a>
+      <button
+        id="menu-open"
+        type="button"
+        class="grid size-12 place-items-center rounded-full text-white group-data-[solid=true]/header:text-navy-900 lg:hidden"
+        aria-label="Open menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <Icon name="menu" class="size-6" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Dims the page behind the open mega menu -->
+  <div
+    id="menu-backdrop"
+    class="pointer-events-none fixed inset-x-0 top-20 bottom-0 -z-10 bg-navy-950/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-500 data-[show=true]:opacity-100"
+    data-show="false"
+  ></div>
+
+  <!-- ================= Mobile menu ================= -->
+  <div
+    id="mobile-menu"
+    class="invisible fixed inset-0 z-50 flex flex-col bg-navy-950 opacity-0 transition-all duration-500 data-[open=true]:visible data-[open=true]:opacity-100 lg:hidden"
+    data-open="false"
+  >
+    <div class="container-x flex h-20 shrink-0 items-center justify-between">
+      <span class="font-serif text-lg text-white">Menu</span>
+      <button
+        id="menu-close"
+        type="button"
+        class="grid size-12 place-items-center rounded-full text-white"
+        aria-label="Close menu"
+      >
+        <Icon name="close" class="size-6" />
+      </button>
+    </div>
+    <nav aria-label="Mobile" class="container-x flex-1 overflow-y-auto pb-10">
+      <ul class="divide-y divide-white/10 border-y border-white/10">
+        {menu.map((item, i) =>
+          item.kind === "link" ? (
+            <li>
+              <a
+                href={item.href}
+                class="mobile-link block py-4 font-serif text-3xl text-white"
+              >
+                {item.label}
+              </a>
+            </li>
+          ) : (
+            <li data-acc>
+              <button
+                type="button"
+                class="flex w-full items-center justify-between py-4 text-left font-serif text-3xl text-white"
+                aria-expanded="false"
+                aria-controls={`m-panel-${i}`}
+                data-acc-trigger
+              >
+                {item.label}
+                <span class="grid size-10 place-items-center rounded-full bg-white/10 text-ember-400">
+                  <Fragment set:html={chevron} />
+                </span>
+              </button>
+              <div id={`m-panel-${i}`} class="acc-panel" data-open="false">
+                <div class="overflow-hidden">
+                  {item.kind === "mega" ? (
+                    <div class="space-y-6 pt-1 pb-6">
+                      {item.columns.map((col) => (
+                        <div>
+                          <p class="text-xs font-semibold tracking-[0.2em] text-ember-400 uppercase">
+                            {col.title}
+                          </p>
+                          <ul class="mt-2 grid grid-cols-2 gap-x-4">
+                            {col.links.map((l) => (
+                              <li>
+                                <a
+                                  href={l.href}
+                                  class="mobile-link flex min-h-11 items-center text-white/80 hover:text-white"
+                                >
+                                  {l.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                      <a
+                        href={item.feature.cta.href}
+                        class="mobile-link inline-flex min-h-11 items-center gap-2 font-semibold text-ember-400"
+                      >
+                        {item.feature.cta.label}{" "}
+                        <Icon name="arrow" class="size-4" />
+                      </a>
+                    </div>
+                  ) : (
+                    <ul class="pt-1 pb-5">
+                      {item.links.map((l) => (
+                        <li>
+                          <a
+                            href={l.href}
+                            class="mobile-link flex min-h-12 flex-col justify-center py-1 text-white/85 hover:text-white"
+                            {...ext(l.external)}
+                          >
+                            {l.label}
+                            {l.note && (
+                              <span class="text-sm text-white/50">
+                                {l.note}
+                              </span>
+                            )}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </li>
+          ),
+        )}
+      </ul>
+      <div class="mt-8 flex flex-col gap-3">
+        <a href="/#contact" class="btn-primary mobile-link">
+          Book an Appointment
+        </a>
+        <a href={practice.phoneHref} class="btn-ghost-light">
+          Call {practice.phone}
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .nav-trigger {
+    @apply hover:text-ember-400 inline-flex min-h-11 items-center gap-1.5 rounded-full px-4 text-sm font-medium text-white/90 transition-colors;
+  }
+  :global(#site-header[data-solid="true"]) .nav-trigger {
+    @apply text-navy-900 hover:text-ember-600;
+  }
+  .menu-item[data-open="true"] > .nav-trigger {
+    @apply text-ember-400;
+  }
+  :global(#site-header[data-solid="true"])
+    .menu-item[data-open="true"]
+    > .nav-trigger {
+    @apply bg-navy-50 text-ember-600;
+  }
+  .menu-item[data-open="true"] > .nav-trigger :global(.chev),
+  [data-acc-trigger][aria-expanded="true"] :global(.chev) {
+    transform: rotate(180deg);
+  }
+
+  /* Panels: hidden by default, fade + slide in when open */
+  .menu-panel {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.3s var(--ease-elegant),
+      transform 0.45s var(--ease-elegant),
+      visibility 0s linear 0.3s;
+  }
+  .menu-panel.drop {
+    transform: translate(-50%, -8px);
+  }
+  .menu-item[data-open="true"] .menu-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+  .menu-item[data-open="true"] .menu-panel.drop {
+    transform: translate(-50%, 0);
+  }
+
+  /* Mega columns stagger in */
+  .menu-col {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s var(--ease-elegant),
+      transform 0.5s var(--ease-elegant);
+  }
+  .menu-item[data-open="true"] .menu-col {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--d) + 80ms);
+  }
+
+  .mega-link {
+    @apply text-navy-900 hover:bg-ember-50 hover:text-ember-600 relative -mx-3 flex min-h-10 items-center rounded-lg px-3 text-[0.95rem] transition-colors;
+  }
+  .mega-link::before {
+    content: "";
+    @apply bg-ember-500 absolute top-1/2 left-0 h-4 w-0.5 -translate-y-1/2 scale-y-0 rounded-full transition-transform duration-300;
+  }
+  .mega-link:hover::before,
+  .mega-link:focus-visible::before {
+    @apply scale-y-100;
+  }
+  .drop-link {
+    @apply hover:bg-sand-50 block rounded-2xl px-4 py-3 transition-colors;
+  }
+
+  /* Mobile accordion (animates height with grid rows) */
+  .acc-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s var(--ease-elegant);
+  }
+  .acc-panel[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-panel,
+    .menu-col,
+    .acc-panel {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header")!;
+  const backdrop = document.getElementById("menu-backdrop")!;
+  const items = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-menu-item]"),
+  );
+  let openItem: HTMLElement | null = null;
+  let timer: number | undefined;
+
+  /* ---------- Solid header when scrolled or a menu is open ---------- */
+  const updateSolid = () => {
+    header.dataset.solid = String(window.scrollY > 40 || openItem !== null);
+  };
+  updateSolid();
+  window.addEventListener("scroll", updateSolid, { passive: true });
+
+  /* ---------- Desktop menus ---------- */
+  const setOpen = (item: HTMLElement | null) => {
+    if (openItem === item) return;
+    if (openItem) {
+      openItem.dataset.open = "false";
+      openItem
+        .querySelector("[data-menu-trigger]")!
+        .setAttribute("aria-expanded", "false");
+    }
+    openItem = item;
+    if (item) {
+      item.dataset.open = "true";
+      item
+        .querySelector("[data-menu-trigger]")!
+        .setAttribute("aria-expanded", "true");
+    }
+    backdrop.dataset.show = String(!!item?.querySelector(".menu-panel.mega"));
+    updateSolid();
+  };
+
+  items.forEach((item) => {
+    const trigger = item.querySelector<HTMLButtonElement>(
+      "[data-menu-trigger]",
+    )!;
+    const panel = item.querySelector<HTMLElement>("[data-menu-panel]")!;
+
+    // Hover intent (mouse only): short delay so menus don't flicker
+    item.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => setOpen(item), openItem ? 0 : 90);
+    });
+    item.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => openItem === item && setOpen(null), 220);
+    });
+
+    // Click, tap or Enter/Space toggles
+    trigger.addEventListener("click", () =>
+      setOpen(openItem === item ? null : item),
+    );
+
+    // Arrow down from the trigger jumps into the panel
+    trigger.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setOpen(item);
+        requestAnimationFrame(() =>
+          panel.querySelector<HTMLElement>("a")?.focus(),
+        );
+      }
+    });
+
+    // Close when keyboard focus leaves the menu
+    item.addEventListener("focusout", (e) => {
+      if (
+        e.relatedTarget &&
+        !item.contains(e.relatedTarget as Node) &&
+        openItem === item
+      )
+        setOpen(null);
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && openItem) {
+      const t = openItem.querySelector<HTMLElement>("[data-menu-trigger]");
+      setOpen(null);
+      t?.focus();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (openItem && !openItem.contains(e.target as Node)) setOpen(null);
+  });
+  document
+    .querySelectorAll("[data-menu-panel] a")
+    .forEach((a) => a.addEventListener("click", () => setOpen(null)));
+
+  /* ---------- Mobile drawer ---------- */
+  const drawer = document.getElementById("mobile-menu")!;
+  const openBtn = document.getElementById("menu-open")!;
+  const closeBtn = document.getElementById("menu-close")!;
+
+  const setDrawer = (open: boolean) => {
+    drawer.dataset.open = String(open);
+    openBtn.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+    (open ? closeBtn : openBtn).focus();
+  };
+  openBtn.addEventListener("click", () => setDrawer(true));
+  closeBtn.addEventListener("click", () => setDrawer(false));
+  drawer
+    .querySelectorAll(".mobile-link")
+    .forEach((a) => a.addEventListener("click", () => setDrawer(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.dataset.open === "true") setDrawer(false);
+  });
+
+  // Accordions: one open at a time
+  const accs = Array.from(drawer.querySelectorAll<HTMLElement>("[data-acc]"));
+  accs.forEach((acc) => {
+    const btn = acc.querySelector<HTMLButtonElement>("[data-acc-trigger]")!;
+    btn.addEventListener("click", () => {
+      const willOpen = btn.getAttribute("aria-expanded") !== "true";
+      accs.forEach((a) => {
+        a.querySelector("[data-acc-trigger]")!.setAttribute(
+          "aria-expanded",
+          "false",
+        );
+        a.querySelector<HTMLElement>(".acc-panel")!.dataset.open = "false";
+      });
+      if (willOpen) {
+        btn.setAttribute("aria-expanded", "true");
+        acc.querySelector<HTMLElement>(".acc-panel")!.dataset.open = "true";
+      }
+    });
+  });
+</script>

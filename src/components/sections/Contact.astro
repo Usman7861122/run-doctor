@@ -1,0 +1,89 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import ContactForm from "@/components/react/ContactForm";
+import { practice } from "@/data/site";
+
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(practice.address.mapsQuery)}&z=15&output=embed`;
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(practice.address.mapsQuery)}`;
+---
+
+<section id="contact" class="section">
+  <div class="container-x">
+    <SectionHeading
+      eyebrow="Contact Us"
+      title="Let's get you back on your feet."
+      intro="Send us a message and our team will call you to schedule. Same week appointments are often available."
+    />
+
+    <div class="mt-14 grid gap-8 lg:grid-cols-12">
+      <!-- Form -->
+      <div class="rounded-[2rem] bg-white p-8 shadow-xl shadow-navy-900/5 sm:p-10 lg:col-span-7">
+        <ContactForm client:visible />
+      </div>
+
+      <!-- Info + map -->
+      <div class="flex flex-col gap-6 lg:col-span-5">
+        <div class="rounded-[2rem] bg-navy-900 p-8 text-white sm:p-10">
+          <ul class="space-y-6">
+            <li class="flex gap-4">
+              <Icon name="pin" class="mt-1 size-5 shrink-0 text-ember-400" />
+              <div>
+                <p class="font-semibold">Visit us</p>
+                <p class="text-white/75">
+                  {practice.address.line1}
+                  <br />
+                  {practice.address.line2}
+                </p>
+                <a
+                  href={directions}
+                  target="_blank"
+                  rel="noopener"
+                  class="mt-2 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ember-400 hover:text-white"
+                >
+                  Get directions <Icon name="arrow" class="size-4" />
+                </a>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <Icon name="phone" class="mt-1 size-5 shrink-0 text-ember-400" />
+              <div>
+                <p class="font-semibold">Call us</p>
+                <a
+                  href={practice.phoneHref}
+                  class="text-white/75 hover:text-white"
+                >
+                  {practice.phone}
+                </a>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <Icon name="clock" class="mt-1 size-5 shrink-0 text-ember-400" />
+              <div class="w-full">
+                <p class="font-semibold">Office hours</p>
+                <dl class="mt-1 space-y-1 text-sm text-white/75">
+                  {practice.hours.map((h) => (
+                    <div class="flex justify-between gap-4">
+                      <dt>{h.days}</dt>
+                      <dd>{h.time}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="relative min-h-80 flex-1 overflow-hidden rounded-[2rem] bg-navy-100">
+          <iframe
+            title="Map showing Washington Foot & Ankle Sports Medicine in Kirkland, WA"
+            src={mapSrc}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="absolute inset-0 size-full border-0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

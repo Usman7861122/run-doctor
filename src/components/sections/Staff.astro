@@ -1,0 +1,43 @@
+---
+import Img from "@/components/ui/Img.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import FadeIn from "@/components/react/FadeIn";
+import { staff } from "@/data/site";
+---
+
+<section id="staff" class="section bg-white">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <SectionHeading
+        eyebrow="Meet the Staff"
+        title="Friendly faces, from check in to follow up."
+        intro="Our team makes every visit smooth, welcoming and on time."
+      />
+    </div>
+
+    <div class="mt-14 grid grid-cols-2 gap-5 lg:grid-cols-4 lg:gap-8">
+      {staff.map((s, i) => (
+        <FadeIn client:visible delay={i * 0.08}>
+          <figure class="group">
+            <div class="relative aspect-[3/4] overflow-hidden rounded-3xl bg-navy-100">
+              <Img
+                src={s.img}
+                alt={`${s.name}, ${s.role}`}
+                width={600}
+                height={800}
+                class="size-full object-cover transition duration-700 ease-(--ease-elegant) group-hover:scale-105"
+              />
+              <span class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-ember-500 transition-transform duration-500 group-hover:scale-x-100" />
+            </div>
+            <figcaption class="mt-4">
+              <span class="block font-serif text-2xl text-navy-900">
+                {s.name}
+              </span>
+              <span class="text-sm text-muted">{s.role}</span>
+            </figcaption>
+          </figure>
+        </FadeIn>
+      ))}
+    </div>
+  </div>
+</section>

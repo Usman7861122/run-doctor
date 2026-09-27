@@ -1,0 +1,37 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import FadeIn from "@/components/react/FadeIn";
+import { insurances, practice } from "@/data/site";
+---
+
+<section id="insurance" class="section bg-white">
+  <div class="container-x grid gap-14 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <SectionHeading
+        eyebrow="Insurances Accepted"
+        title="We work with most major plans."
+        intro="Don't see your plan? Give us a call and our team will check your coverage for you."
+      />
+      <a href={practice.phoneHref} class="btn-dark mt-8">
+        <Icon name="phone" class="size-4" />
+        Verify My Coverage
+      </a>
+    </div>
+    <FadeIn client:visible className="lg:col-span-8">
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {insurances.map((ins) => (
+          <li class="flex items-center gap-4 rounded-2xl border border-navy-900/10 bg-sand-50 px-5 py-4 transition hover:border-ember-500/40 hover:bg-ember-50">
+            <span class="grid size-9 shrink-0 place-items-center rounded-full bg-navy-900 text-ember-400">
+              <Icon name="shield" class="size-4" />
+            </span>
+            <span class="font-medium text-navy-900">{ins}</span>
+          </li>
+        ))}
+        <li class="flex items-center gap-4 rounded-2xl border border-dashed border-navy-900/20 px-5 py-4 text-muted sm:col-span-2">
+          And many others. Please call to confirm your specific plan.
+        </li>
+      </ul>
+    </FadeIn>
+  </div>
+</section>

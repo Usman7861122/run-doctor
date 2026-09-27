@@ -1,0 +1,33 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import Testimonials from "@/components/react/Testimonials";
+import { practice, testimonials } from "@/data/site";
+---
+
+<section id="testimonials" class="section relative overflow-hidden bg-navy-900">
+  <div
+    aria-hidden="true"
+    class="absolute -top-24 -left-24 size-96 rounded-full bg-ember-500/10 blur-3xl"
+  ></div>
+  <div
+    aria-hidden="true"
+    class="absolute -right-24 -bottom-24 size-96 rounded-full bg-navy-700/60 blur-3xl"
+  ></div>
+
+  <div class="container-x relative">
+    <div class="text-center">
+      <Icon name="quote" class="mx-auto size-10 text-ember-400" />
+      <p class="eyebrow mt-6 justify-center text-ember-400!">Patient Stories</p>
+    </div>
+    <div class="mt-10">
+      <Testimonials client:visible items={testimonials} />
+    </div>
+    <p class="mt-14 text-center text-sm text-white/60">
+      Rated{" "}
+      <span class="font-semibold text-white">
+        {practice.rating.score} out of 5
+      </span>{" "}
+      from {practice.rating.count} reviews on Google, Yelp and Healthgrades.
+    </p>
+  </div>
+</section>

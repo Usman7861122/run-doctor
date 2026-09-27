@@ -1,0 +1,72 @@
+---
+import { nav, practice } from "@/data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 pt-20 pb-10 text-white/70">
+  <div class="container-x">
+    <div class="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <p class="font-serif text-3xl text-white">
+          Washington Foot & Ankle
+          <br />
+          <span class="text-ember-400 italic">Sports Medicine</span>
+        </p>
+        <p class="mt-5 max-w-sm">
+          {practice.tagline}. Helping the Eastside stay active, one step at a
+          time.
+        </p>
+      </div>
+      <nav aria-label="Footer" class="md:col-span-3">
+        <p class="text-xs font-semibold tracking-[0.2em] text-white uppercase">
+          Explore
+        </p>
+        <ul class="mt-5 grid grid-cols-2 gap-2 md:grid-cols-1">
+          {nav.map((n) => (
+            <li>
+              <a href={n.href} class="inline-block py-1 hover:text-ember-400">
+                {n.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="md:col-span-4">
+        <p class="text-xs font-semibold tracking-[0.2em] text-white uppercase">
+          Visit
+        </p>
+        <p class="mt-5">
+          {practice.address.line1}
+          <br />
+          {practice.address.line2}
+        </p>
+        <a
+          href={practice.phoneHref}
+          class="mt-4 inline-block font-serif text-2xl text-white hover:text-ember-400"
+        >
+          {practice.phone}
+        </a>
+        <div class="mt-6 flex flex-wrap gap-3 text-sm">
+          <a
+            href="#"
+            class="rounded-full border border-white/15 px-4 py-2 hover:border-ember-400 hover:text-ember-400"
+          >
+            Patient Forms
+          </a>
+          <a
+            href="#"
+            class="rounded-full border border-white/15 px-4 py-2 hover:border-ember-400 hover:text-ember-400"
+          >
+            Pay Bill
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col justify-between gap-4 pt-8 text-sm sm:flex-row">
+      <p>
+        &copy; {year} {practice.name}. All rights reserved.
+      </p>
+      <p>Kirkland, Washington</p>
+    </div>
+  </div>
+</footer>
