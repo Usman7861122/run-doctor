@@ -1,22 +1,28 @@
 ---
-import Img from "@/components/ui/Img.astro";
 import Icon from "@/components/ui/Icon.astro";
 import HeroText from "@/components/react/HeroText";
-import { images, practice } from "@/data/site";
+import { practice } from "@/data/site";
 ---
 
 <section
   id="top"
   class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-navy-950 pt-28 pb-16 sm:items-center sm:pb-24"
 >
-  <Img
-    src={images.hero}
-    alt="Runner on an open road at sunrise"
-    width={2000}
-    height={1333}
-    eager
-    class="hero-img absolute inset-0 -z-20 size-full object-cover"
-  />
+  <!-- Background video (muted autoplay loop). Poster shows instantly while it loads. -->
+  <video
+    id="hero-video"
+    class="absolute inset-0 -z-20 size-full object-cover"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="/videos/hero-poster.webp"
+    aria-hidden="true"
+  >
+    <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+    <source src="/videos/hero.mp4" type="video/mp4" />
+  </video>
   <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-navy-950/10"></div>
   <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
 
@@ -40,17 +46,11 @@ import { images, practice } from "@/data/site";
   </div>
 </section>
 
-<style>
-  /* Slow cinematic zoom on the hero image */
-  .hero-img {
-    animation: heroZoom 18s var(--ease-elegant) both;
+<script>
+  // Respect "reduce motion": stop the video and keep the still poster.
+  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+  if (video && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    video.removeAttribute("autoplay");
+    video.pause();
   }
-  @keyframes heroZoom {
-    from {
-      transform: scale(1.12);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-</style>
+</script>
