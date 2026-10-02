@@ -4,7 +4,6 @@ import Header from "@/components/sections/Header.astro";
 import Hero from "@/components/sections/Hero.astro";
 import About from "@/components/sections/About.astro";
 import Cryderman from "@/components/sections/Cryderman.astro";
-import Staff from "@/components/sections/Staff.astro";
 import FlipGrid from "@/components/sections/FlipGrid.astro";
 import Physicians from "@/components/sections/Physicians.astro";
 import MaurerWork from "@/components/sections/MaurerWork.astro";
@@ -34,7 +33,7 @@ import { conditions, treatments } from "@/data/site";
     <Hero />
     <Cryderman />
     <About />
-    <Staff />
+    {/* <Staff /> hidden for now; component kept in src/components/sections/Staff.astro */}
     <FlipGrid
       id="conditions"
       eyebrow="Conditions"

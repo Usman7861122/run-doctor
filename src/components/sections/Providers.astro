@@ -1,5 +1,5 @@
 ---
-import Img from "@/components/ui/Img.astro";
+import Watermark from "@/components/ui/Watermark.astro";
 import Icon from "@/components/ui/Icon.astro";
 import SectionHeading from "@/components/ui/SectionHeading.astro";
 import FadeIn from "@/components/react/FadeIn";
@@ -19,14 +19,21 @@ import { physicians } from "@/data/site";
       {physicians.map((d, i) => (
         <FadeIn client:visible delay={i * 0.1}>
           <article class="group grid h-full overflow-hidden rounded-[2rem] bg-white shadow-xl shadow-navy-900/5 sm:grid-cols-5">
-            <div class="relative aspect-[4/5] overflow-hidden bg-navy-100 sm:col-span-2 sm:aspect-auto">
-              <Img
-                src={d.img}
-                alt={`Portrait of ${d.name}`}
-                width={700}
-                height={900}
-                class="absolute inset-0 size-full object-cover transition duration-700 ease-(--ease-elegant) group-hover:scale-105"
-              />
+            <!-- Portrait panel: circular photo on navy, with brand ring and runner watermark -->
+            <div class="relative grid min-h-72 place-items-center overflow-hidden bg-gradient-to-br from-navy-800 to-navy-950 p-6 sm:col-span-2">
+              <Watermark class="-right-10 -bottom-10 h-64 bg-white/[0.06]" />
+              <div class="relative">
+                <span aria-hidden="true" class="absolute -inset-3 rounded-full border border-ember-500/50 transition-transform duration-700 ease-(--ease-elegant) group-hover:scale-105"></span>
+                <img
+                  src={d.img}
+                  alt={`Portrait of ${d.name}`}
+                  width="720"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  class="relative aspect-square size-44 max-w-none shrink-0 rounded-full object-cover ring-4 ring-white/10 transition duration-700 ease-(--ease-elegant) group-hover:scale-[1.03] lg:size-32 xl:size-40"
+                />
+              </div>
             </div>
             <div class="flex flex-col p-8 sm:col-span-3 sm:p-10">
               <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">
