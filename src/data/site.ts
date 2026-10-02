@@ -67,7 +67,7 @@ export const aboutPoints = [
 export const stats = [
   { value: "4.94", label: "Average rating" },
   { value: "510+", label: "Patient reviews" },
-  { value: "2", label: "Foot & ankle surgeons" },
+  { value: "2", label: "Foot & ankle physicians" },
 ];
 
 // PLACEHOLDER staff names and roles
@@ -172,12 +172,11 @@ export const physicians = [
     tags: ["Sports medicine", "Biomechanics", "Surgery"],
   },
   {
-    name: "Peter Vincent, DPM",
-    title: "Foot and Ankle Surgeon",
-    img: u("1537368910025-700350fe46c7", 900),
-    // PLACEHOLDER bio, replace with Dr. Vincent's real background
-    bio: "Dr. Vincent treats patients of all ages, from young athletes to active retirees. Patients love his friendly and clear approach to care (and his love of dogs).",
-    tags: ["Pediatric care", "Heel pain", "Surgery"],
+    name: "Kate Cryderman, DPM",
+    title: "Podiatric Physician & Surgeon",
+    img: "/images/dr-cryderman-square.webp",
+    bio: "A Kirkland native and former college athlete, Dr. Cryderman trained at Samuel Merritt University and served as Chief Resident at Rochester General Hospital. She loves helping patients of every age stay active.",
+    tags: ["Sports medicine", "Biomechanics", "All ages"],
   },
 ];
 
@@ -287,10 +286,9 @@ export const testimonials = [
     source: "Google",
   },
   {
-    quote:
-      "Dr. Vincent and Dr. Maurer are a great team and make great medical decisions.",
-    name: "Ben W.",
-    source: "Yelp",
+    quote: "I would recommend it if you are tired of all the pain!",
+    name: "Ada W.",
+    source: "Google",
   },
   {
     quote: "I have been coming here for years and I could not be happier.",
@@ -310,3 +308,49 @@ export const testimonials = [
     source: "Google",
   },
 ];
+
+/** Dr. Kate Cryderman welcome section (from the practice announcement). */
+export const cryderman = {
+  name: "Dr. Kate Cryderman",
+  credentials: "DPM",
+  portrait: "/images/dr-cryderman.webp",
+  intro:
+    "Dr. Kate Cryderman is excited to return home to the Eastside and serve the community where she was born and raised.",
+  story:
+    "A Kirkland native and graduate of Juanita High School, she developed a lifelong passion for sports while competing in basketball and track. Later, working as a medical assistant at our practice and coaching young athletes strengthened her passion for keeping athletes healthy and inspired her to pursue podiatric medicine.",
+  focus:
+    "With a special interest in sports medicine and biomechanics, Dr. Cryderman cares for patients of all ages and activity levels. Whether you're a young athlete playing your first sport, a competitive high school or collegiate athlete, a weekend warrior, or simply someone who wants to stay active, she builds personalized treatment plans that help you move comfortably and return to doing what you love.",
+  journey: [
+    {
+      place: "Juanita High School",
+      detail: "Kirkland native. Competed in basketball and track.",
+    },
+    {
+      place: "Northwest Nazarene University",
+      detail:
+        "Bachelor's degree in Biology while competing in basketball and track.",
+    },
+    {
+      place: "Washington Foot & Ankle Sports Medicine",
+      detail:
+        "Worked here as a medical assistant, coached track at Juanita and college basketball in Idaho.",
+    },
+    {
+      place: "Samuel Merritt University",
+      detail: "Doctor of Podiatric Medicine, 2023.",
+    },
+    {
+      place: "Rochester General Hospital",
+      detail:
+        "Comprehensive surgical residency in Rochester, New York. Chief Resident in her final year.",
+    },
+  ],
+  offDuty:
+    "You'll often find her kayaking on local lakes, walking her seven-year-old French Bulldog, Harley, or spending time with her family across the Seattle area.",
+};
+
+/** Notice for patients of Dr. Vincent, who has left the practice. */
+export const vincentNotice = {
+  title: "A note for Dr. Vincent's patients",
+  text: "Dr. Peter Vincent has departed from our practice. Your care remains our top priority and there will be no interruption in service. Dr. Maurer and Dr. Cryderman are both accepting appointments. If you would like to continue with Dr. Vincent, call us and we will share his new contact information as soon as it becomes available.",
+};

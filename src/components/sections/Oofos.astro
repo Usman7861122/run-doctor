@@ -1,4 +1,5 @@
 ---
+import Watermark from "@/components/ui/Watermark.astro";
 import Img from "@/components/ui/Img.astro";
 import Icon from "@/components/ui/Icon.astro";
 import FadeIn from "@/components/react/FadeIn";
@@ -9,6 +10,7 @@ import { images } from "@/data/site";
   <div class="container-x">
     <FadeIn client:visible>
       <div class="relative grid overflow-hidden rounded-[2.5rem] bg-ember-500 lg:grid-cols-2">
+        <Watermark class="-bottom-16 -left-10 h-[26rem] bg-navy-950/[0.07] lg:h-[32rem]" />
         <div class="relative z-10 p-10 sm:p-14 lg:p-20">
           <p class="eyebrow text-navy-950!">Proud Affiliates with OOFOS</p>
           <h2 class="mt-5 text-4xl leading-tight text-navy-950! sm:text-5xl">

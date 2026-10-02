@@ -1,0 +1,146 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import FadeIn from "@/components/react/FadeIn";
+import { cryderman as dr, practice, vincentNotice } from "@/data/site";
+---
+
+<section
+  id="dr-cryderman"
+  class="section relative overflow-clip bg-sand-50 pb-10! sm:pb-14!"
+  aria-labelledby="cryderman-title"
+>
+  <!-- Soft decorative glow and script word -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -top-40 -left-40 size-[36rem] rounded-full bg-ember-100/60 blur-3xl"
+  ></div>
+
+
+  <div class="container-x relative grid items-start gap-16 lg:grid-cols-12 lg:gap-12">
+    <!-- Portrait -->
+    <FadeIn
+      client:visible
+      className="mx-auto w-full max-w-md lg:sticky lg:top-28 lg:col-span-5"
+    >
+      <figure class="relative">
+        <!-- Offset outline frame -->
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 translate-x-3 translate-y-3 rounded-t-full sm:translate-x-4 sm:translate-y-4 rounded-b-[2rem] border-2 border-ember-500/60"
+        ></div>
+        <div class="relative aspect-[4/5] overflow-hidden rounded-t-full rounded-b-[2rem] bg-navy-100 shadow-2xl shadow-navy-900/15">
+          <img
+            src={dr.portrait}
+            alt="Portrait of Dr. Kate Cryderman, smiling"
+            width="1000"
+            height="1250"
+            loading="lazy"
+            decoding="async"
+            class="size-full object-cover"
+          />
+        </div>
+
+        <!-- Accepting patients badge -->
+        <div class="absolute -top-2 -right-2 flex items-center gap-2.5 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-navy-900 shadow-xl shadow-navy-900/10 sm:-right-6">
+          <span class="relative flex size-2.5">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden"></span>
+            <span class="relative inline-flex size-2.5 rounded-full bg-emerald-500"></span>
+          </span>
+          Accepting New Patients
+        </div>
+
+        <!-- Hometown card -->
+        <figcaption class="absolute -bottom-8 -left-2 rounded-2xl bg-navy-900 px-6 py-5 text-white shadow-xl sm:-left-8">
+          <p class="text-xs font-semibold tracking-[0.2em] text-ember-400 uppercase">
+            Kirkland native
+          </p>
+          <p class="mt-1 font-serif text-xl">Born and raised on the Eastside</p>
+        </figcaption>
+      </figure>
+    </FadeIn>
+
+    <!-- Story -->
+    <div class="lg:col-span-7 lg:pl-6">
+      <FadeIn client:visible>
+        <p class="eyebrow">Welcome to Our Team</p>
+        <h2 id="cryderman-title" class="h-section">
+          Meet {dr.name},{" "}
+          <span class="text-ember-600 italic">{dr.credentials}</span>
+        </h2>
+        <p class="mt-6 font-serif text-2xl leading-snug text-navy-700 italic sm:text-[1.65rem]">
+          {dr.intro}
+        </p>
+        <p class="mt-6 text-lg text-muted">{dr.story}</p>
+        <p class="mt-4 text-lg text-muted">{dr.focus}</p>
+      </FadeIn>
+
+      <!-- Journey timeline -->
+      <FadeIn client:visible delay={0.1}>
+        <h3 class="mt-14 text-xs font-sans font-semibold tracking-[0.2em] text-navy-900 uppercase">
+          Her path back home
+        </h3>
+        <ol class="relative mt-6 space-y-7 border-l border-navy-900/15 pl-8">
+          {dr.journey.map((step, i) => (
+            <li class="relative">
+              <span
+                aria-hidden="true"
+                class:list={[
+                  "absolute top-1 -left-[39.5px] grid size-4 place-items-center rounded-full ring-4 ring-sand-50",
+                  i === dr.journey.length - 1 ? "bg-ember-500" : "bg-navy-900",
+                ]}
+              />
+              <p class="font-serif text-xl text-navy-900">{step.place}</p>
+              <p class="mt-1 text-muted">{step.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </FadeIn>
+
+      <!-- Off duty + CTA -->
+      <FadeIn client:visible delay={0.15}>
+        <div class="mt-12 rounded-3xl border border-navy-900/10 bg-white p-7 sm:p-8">
+          <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">
+            Off the clock
+          </p>
+          <p class="mt-3 text-lg text-navy-900">{dr.offDuty}</p>
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="#contact" class="btn-primary">
+            <Icon name="calendar" class="size-4" />
+            Book with Dr. Cryderman
+          </a>
+          <a href={practice.phoneHref} class="btn-outline">
+            <Icon name="phone" class="size-4" />
+            {practice.phone}
+          </a>
+        </div>
+      </FadeIn>
+    </div>
+  </div>
+
+  <!-- Notice for Dr. Vincent's patients -->
+  <div class="container-x relative mt-16">
+    <FadeIn client:visible>
+      <aside class="flex flex-col gap-6 rounded-3xl bg-navy-900 p-8 text-white sm:p-10 md:flex-row md:items-center md:justify-between">
+        <div class="flex gap-5">
+          <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-ember-500/15 text-ember-400">
+            <Icon name="shield" class="size-6" />
+          </span>
+          <div class="max-w-3xl">
+            <h3 class="font-serif text-2xl text-white!">
+              {vincentNotice.title}
+            </h3>
+            <p class="mt-2 text-white/75">{vincentNotice.text}</p>
+          </div>
+        </div>
+        <a
+          href={practice.phoneHref}
+          class="btn-primary shrink-0 self-start md:self-auto"
+        >
+          Call the office
+        </a>
+      </aside>
+    </FadeIn>
+  </div>
+</section>

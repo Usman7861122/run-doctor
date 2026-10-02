@@ -170,7 +170,7 @@ export default function ContactForm() {
               >
                 <option>No preference</option>
                 <option>Dr. Lawrence Maurer</option>
-                <option>Dr. Peter Vincent</option>
+                <option>Dr. Kate Cryderman</option>
               </select>
             </div>
             <div className="sm:col-span-2">

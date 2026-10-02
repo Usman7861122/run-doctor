@@ -1,10 +1,15 @@
 ---
+import Watermark from "@/components/ui/Watermark.astro";
 import Icon from "@/components/ui/Icon.astro";
 import Testimonials from "@/components/react/Testimonials";
 import { practice, testimonials } from "@/data/site";
 ---
 
 <section id="testimonials" class="section relative overflow-hidden bg-navy-900">
+  <Watermark
+    drift
+    class="top-8 -right-16 h-[34rem] bg-white/[0.05] sm:right-4 lg:h-[40rem]"
+  />
   <div
     aria-hidden="true"
     class="absolute -top-24 -left-24 size-96 rounded-full bg-ember-500/10 blur-3xl"

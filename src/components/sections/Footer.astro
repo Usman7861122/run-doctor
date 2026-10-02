@@ -1,17 +1,28 @@
 ---
+import Watermark from "@/components/ui/Watermark.astro";
 import { nav, practice } from "@/data/site";
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-navy-950 pt-20 pb-10 text-white/70">
-  <div class="container-x">
+<footer class="relative overflow-hidden bg-navy-950 pt-20 pb-10 text-white/70">
+  <Watermark class="-right-20 -bottom-24 h-[30rem] bg-white/[0.035] sm:h-[38rem]" />
+  <div class="container-x relative">
     <div class="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-12">
       <div class="md:col-span-5">
-        <p class="font-serif text-3xl text-white">
-          Washington Foot & Ankle
-          <br />
-          <span class="text-ember-400 italic">Sports Medicine</span>
-        </p>
+        <a
+          href="/"
+          class="inline-block"
+          aria-label={`${practice.shortName} home`}
+        >
+          <img
+            src="/logos/rundoctor-logo-on-dark.svg"
+            alt=""
+            width="260"
+            height="64"
+            class="h-16 w-auto"
+            loading="lazy"
+          />
+        </a>
         <p class="mt-5 max-w-sm">
           {practice.tagline}. Helping the Eastside stay active, one step at a
           time.

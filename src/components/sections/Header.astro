@@ -20,23 +20,26 @@ const ext = (external?: boolean) =>
     class="absolute inset-x-0 top-0 h-20 bg-sand-50/95 opacity-0 shadow-[0_1px_0_rgba(13,39,66,0.08)] backdrop-blur-lg transition-opacity duration-500 group-data-[solid=true]/header:opacity-100"
   ></div>
   <div class="container-x relative flex h-20 items-center justify-between gap-6">
-    <!-- Logo -->
+    <!-- Logo: white letters over the hero, swaps to the light-background version when the header turns solid -->
     <a
       href="/"
-      class="flex shrink-0 items-center gap-3"
-      aria-label={`${practice.name}, home`}
+      class="relative block h-11 w-[178px] shrink-0 sm:h-12 sm:w-[194px]"
+      aria-label={`${practice.shortName}, ${practice.name}, home`}
     >
-      <span class="grid size-11 place-items-center rounded-full bg-ember-500 font-serif text-xl text-navy-950">
-        W
-      </span>
-      <span class="leading-tight">
-        <span class="block font-serif text-lg text-white transition-colors group-data-[solid=true]/header:text-navy-900">
-          Washington Foot & Ankle
-        </span>
-        <span class="block text-[0.7rem] font-semibold tracking-[0.2em] text-white/70 uppercase transition-colors group-data-[solid=true]/header:text-muted">
-          Sports Medicine
-        </span>
-      </span>
+      <img
+        src="/logos/rundoctor-logo-on-dark.svg"
+        alt=""
+        width="194"
+        height="48"
+        class="absolute inset-0 size-full transition-opacity duration-500 group-data-[solid=true]/header:opacity-0"
+      />
+      <img
+        src="/logos/rundoctor-logo-on-light.svg"
+        alt=""
+        width="194"
+        height="48"
+        class="absolute inset-0 size-full opacity-0 transition-opacity duration-500 group-data-[solid=true]/header:opacity-100"
+      />
     </a>
 
     <!-- Desktop navigation -->
@@ -245,7 +248,13 @@ const ext = (external?: boolean) =>
     data-open="false"
   >
     <div class="container-x flex h-20 shrink-0 items-center justify-between">
-      <span class="font-serif text-lg text-white">Menu</span>
+      <img
+        src="/logos/rundoctor-logo-on-dark.svg"
+        alt="Run Doctor"
+        width="178"
+        height="44"
+        class="h-11 w-auto"
+      />
       <button
         id="menu-close"
         type="button"

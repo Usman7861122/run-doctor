@@ -1,0 +1,45 @@
+---
+/**
+ * Decorative runner watermark (from the Run Doctor logo).
+ * Uses a CSS mask, so the color is set with a Tailwind bg class, e.g.
+ * <Watermark class="right-0 bottom-0 h-[30rem] bg-white/5" />
+ * Purely decorative: hidden from screen readers and never blocks clicks.
+ */
+interface Props {
+  class?: string;
+  drift?: boolean;
+}
+const { class: cls = "", drift = false } = Astro.props;
+---
+
+<span
+  aria-hidden="true"
+  class:list={[
+    "watermark pointer-events-none absolute block aspect-[2732/3172] select-none",
+    drift && "watermark-drift",
+    cls,
+  ]}
+></span>
+
+<style>
+  .watermark {
+    -webkit-mask: url("/logos/runner.svg") center / contain no-repeat;
+    mask: url("/logos/runner.svg") center / contain no-repeat;
+  }
+  .watermark-drift {
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(0, 0, 0) rotate(-2deg);
+    }
+    to {
+      transform: translate3d(-1.5rem, -1rem, 0) rotate(2deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .watermark-drift {
+      animation: none;
+    }
+  }
+</style>

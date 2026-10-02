@@ -51,7 +51,7 @@ export const menu: MenuItem[] = [
       {
         label: "Providers",
         href: "/provider",
-        note: "Dr. Maurer and Dr. Vincent",
+        note: "Dr. Maurer and Dr. Cryderman",
       },
       {
         label: "Testimonials",
