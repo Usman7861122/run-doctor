@@ -174,14 +174,14 @@ export const physicians = [
     title: "Foot and Ankle Surgeon",
     img: "/images/dr-maurer.webp",
     bio: "Dr. Maurer trained at Barry University and completed his surgical residency in Kentucky. He is an avid runner, skier and mountain biker, and he lectures for the Northwest Podiatric Foundation.",
-    tags: ["Sports medicine", "Biomechanics", "Surgery"],
+    tags: ["All ages", "Sports Medicine", "Trauma", "Surgery", "Orthotics"],
   },
   {
     name: "Kate Cryderman, DPM",
     title: "Podiatric Physician & Surgeon",
     img: "/images/dr-cryderman-circle.webp",
     bio: "A Kirkland native and former college athlete, Dr. Cryderman trained at Samuel Merritt University and served as Chief Resident at Rochester General Hospital. She loves helping patients of every age stay active.",
-    tags: ["Sports medicine", "Biomechanics", "All ages"],
+    tags: ["All ages", "Sports Medicine", "Trauma", "Surgery", "Orthotics"],
   },
 ];
 
