@@ -1,0 +1,17 @@
+---
+import Watermark from "@/components/ui/Watermark.astro";
+import { practice } from "@/data/site";
+const { title = "Ready to move without pain?", text = "Call us or book online. We will find a time that works." } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-navy-900 py-16 text-white sm:py-20">
+  <Watermark class="-right-10 -bottom-16 h-[26rem] bg-white/[0.05]" />
+  <div class="container-x relative text-center">
+    <h2 class="mx-auto max-w-2xl text-3xl text-white! sm:text-5xl">{title}</h2>
+    <p class="mx-auto mt-4 max-w-xl text-lg text-white/75">{text}</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="/#contact" class="btn-primary">Book an Appointment</a>
+      <a href={practice.phoneHref} class="btn-ghost-light">Call {practice.phone}</a>
+    </div>
+  </div>
+</section>

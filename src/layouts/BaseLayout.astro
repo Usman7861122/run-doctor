@@ -1,13 +1,38 @@
 ---
 import "@/styles/global.css";
+import { practice, siteUrl } from "@/data/site";
+import { clinicSchema, graph, websiteSchema } from "@/data/schema";
 
 interface Props {
   title: string;
   description?: string;
+  /** Path of a social share image, e.g. /images/og-default.jpg */
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+  /** Extra JSON-LD nodes for this page (breadcrumbs, FAQ, etc.) */
+  jsonLd?: object[];
 }
 
-const { title, description = "Washington Foot & Ankle Sports Medicine" } =
-  Astro.props;
+const {
+  title,
+  description = practice.name,
+  image = "/images/og-default.jpg",
+  imageAlt = practice.name,
+  type = "website",
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const base = Astro.site ?? new URL(siteUrl);
+const path =
+  Astro.url.pathname.length > 1
+    ? Astro.url.pathname.replace(/\/$/, "")
+    : Astro.url.pathname;
+const canonical = new URL(path, base).href;
+const ogImage = new URL(image, base).href;
+const schema = graph([clinicSchema, websiteSchema, ...jsonLd]);
 ---
 
 <!doctype html>
@@ -15,13 +40,38 @@ const { title, description = "Washington Foot & Ankle Sports Medicine" } =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex
+        ? "noindex, nofollow"
+        : "index, follow, max-image-preview:large"}
+    />
     <meta name="theme-color" content="#0d2742" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:site_name" content={practice.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body>
     <slot />

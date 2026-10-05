@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import { practice } from "@/data/site";
+---
+
+<BaseLayout title="Page not found | Run Doctor" noindex>
+  <Header />
+  <main class="grid min-h-[70svh] place-items-center bg-navy-950 px-6 pt-32 pb-20 text-center text-white">
+    <div>
+      <p class="eyebrow justify-center text-ember-400!">Error 404</p>
+      <h1 class="mt-4 text-5xl text-white! sm:text-6xl">This step is off the path.</h1>
+      <p class="mx-auto mt-5 max-w-md text-lg text-white/75">The page you want may have moved. Try our services or call us.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/services" class="btn-primary">See Services</a>
+        <a href="/" class="btn-ghost-light">Go Home</a>
+        <a href={practice.phoneHref} class="btn-ghost-light">Call {practice.phone}</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

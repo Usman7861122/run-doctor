@@ -1,0 +1,115 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import CtaBand from "@/components/sections/CtaBand.astro";
+import { breadcrumbs } from "@/data/schema";
+import { aboutPoints, insurances, physicians, practice, siteUrl } from "@/data/site";
+
+const title = "About Washington Foot & Ankle Sports Medicine | Kirkland, WA";
+const description =
+  "Meet the Kirkland podiatrists of Run Doctor. We treat kids, athletes and active adults with a conservative-first approach. Call 425-899-3234.";
+
+const jsonLd = [
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "About", path: "/about" }]),
+  {
+    "@type": "AboutPage",
+    "@id": `${siteUrl}/about#page`,
+    url: new URL("/about", siteUrl).href,
+    name: title,
+    description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#clinic` },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <Header />
+  <main id="main">
+    <PageHero
+      crumb="About"
+      eyebrow="About Our Practice"
+      title="Podiatry and sports medicine, right here in Kirkland"
+      intro="We help kids, athletes and everyday walkers stay active. We look for the cause of your pain, not just the spot that hurts."
+    />
+
+    <section class="section bg-cream">
+      <div class="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="eyebrow">Our Approach</p>
+          <h2 class="h-section mt-3">Care that starts with how you move</h2>
+          <p class="mt-5 text-lg text-muted">
+            Foot pain often starts somewhere else, like the hip, the knee or the way you run. So we look at your whole body, then build a plan that fits your life and your sport.
+          </p>
+          <p class="mt-4 text-lg text-muted">
+            We try simple, non-surgical care first. Surgery is only for when it is truly the best choice, and our surgeons will explain why.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="/services" class="btn-primary">See our services</a>
+            <a href="/provider" class="btn-outline">Meet the doctors</a>
+          </div>
+        </div>
+        <ul class="grid gap-4">
+          {aboutPoints.map((p) => (
+            <li class="rounded-3xl bg-white p-6 ring-1 ring-navy-900/5">
+              <h3 class="font-serif text-2xl text-navy-900">{p.title}</h3>
+              <p class="mt-2 text-muted">{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section bg-ember-50">
+      <div class="container-x">
+        <p class="eyebrow">Our Doctors</p>
+        <h2 class="h-section mt-3 max-w-2xl">Two physicians who love an active life</h2>
+        <ul class="mt-10 grid gap-6 md:grid-cols-2">
+          {physicians.map((d) => (
+            <li class="flex gap-5 rounded-3xl bg-white p-6 ring-1 ring-navy-900/5">
+              <img src={d.img} alt={`${d.name}, ${d.title}`} width="160" height="160" loading="lazy" class="size-24 shrink-0 rounded-2xl object-cover sm:size-32" />
+              <div>
+                <h3 class="font-serif text-2xl text-navy-900">{d.name}</h3>
+                <p class="text-sm font-semibold text-ember-600">{d.title}</p>
+                <p class="mt-2 text-muted">{d.bio}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <a href="/provider" class="link-arrow mt-8">Read full provider bios</a>
+      </div>
+    </section>
+
+    <section class="section bg-cream">
+      <div class="container-x grid gap-12 lg:grid-cols-2">
+        <div>
+          <p class="eyebrow">Visit Us</p>
+          <h2 class="h-section mt-3">Find our office</h2>
+          <address class="mt-5 text-lg not-italic text-muted">
+            {practice.name}<br />
+            {practice.address.line1}<br />
+            {practice.address.line2}
+          </address>
+          <p class="mt-4 text-lg"><a href={practice.phoneHref} class="font-semibold text-navy-900 underline">{practice.phone}</a></p>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(practice.address.mapsQuery)}`} class="link-arrow mt-6" rel="noopener">Get directions</a>
+        </div>
+        <div>
+          <p class="eyebrow">Insurance</p>
+          <h2 class="h-section mt-3">Plans we work with</h2>
+          <ul class="mt-5 flex flex-wrap gap-2">
+            {insurances.map((i) => (
+              <li class="rounded-full bg-white px-4 py-2 text-sm text-navy-900 ring-1 ring-navy-900/10">{i}</li>
+            ))}
+          </ul>
+          <p class="mt-4 text-sm text-muted">Plans can change. Please call us to check your coverage.</p>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand title="Come see us in Kirkland" />
+  </main>
+  <Footer />
+</BaseLayout>

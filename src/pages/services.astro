@@ -1,0 +1,152 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import Icon from "@/components/ui/Icon.astro";
+import Watermark from "@/components/ui/Watermark.astro";
+import { categories, thumbOf, servicesIn, services } from "@/data/services";
+import { breadcrumbs } from "@/data/schema";
+import { practice, siteUrl } from "@/data/site";
+
+const title = "Foot & Ankle Services in Kirkland, WA | Run Doctor";
+const description =
+  "Podiatry and sports medicine in Kirkland, WA. Pediatric foot care, heel pain, bunions, orthotics, gait analysis and more. Call 425-899-3234 to book.";
+
+const kids = categories[0];
+const rest = categories.slice(1);
+
+const jsonLd = [
+  breadcrumbs([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+  ]),
+  {
+    "@type": "CollectionPage",
+    "@id": `${siteUrl}/services#page`,
+    url: new URL("/services", siteUrl).href,
+    name: title,
+    description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: services.map((s, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: s.title,
+        url: new URL(`/services/${s.slug}`, siteUrl).href,
+      })),
+    },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <a
+    href="#main"
+    class="sr-only z-[60] rounded-full bg-ember-500 px-5 py-3 font-semibold text-navy-950 focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+  >
+    Skip to content
+  </a>
+  <Header />
+  <main id="main">
+    <section class="relative isolate overflow-hidden bg-navy-950 pt-36 pb-16 text-white sm:pt-44 sm:pb-24">
+      <img
+        src="/videos/hero-poster.webp"
+        alt=""
+        width="1600"
+        height="900"
+        fetchpriority="high"
+        class="absolute inset-0 -z-20 size-full object-cover"
+      />
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/95 via-navy-950/75 to-navy-950/40"></div>
+      <div class="container-x">
+        <nav aria-label="Breadcrumb" class="text-sm text-white/70">
+          <ol class="flex items-center gap-2">
+            <li><a href="/" class="hover:text-white">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" class="text-white">Services</li>
+          </ol>
+        </nav>
+        <p class="eyebrow mt-8 text-ember-400!">Our Services</p>
+        <h1 class="mt-4 max-w-4xl text-4xl leading-[1.08] text-white! sm:text-6xl">
+          Foot and ankle care in Kirkland, WA
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">
+          Dr. Lawrence Maurer and Dr. Kate Cryderman treat kids, athletes and
+          everyday walkers. We look for the cause of your pain and start with
+          conservative care.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="/#contact" class="btn-primary">Book an Appointment <Icon name="arrow" class="size-4" /></a>
+          <a href={practice.phoneHref} class="btn-ghost-light">Call {practice.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured: Kids & Teens -->
+    <section class="relative overflow-clip bg-ember-50 py-16 sm:py-24" aria-labelledby="h-kids">
+      <div class="container-x grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div>
+          <p class="eyebrow">Featured care</p>
+          <h2 id="h-kids" class="h-section">{kids.title}</h2>
+          <p class="mt-5 max-w-xl text-lg text-muted">{kids.blurb}</p>
+          <a href="/services/pediatric-podiatry" class="btn-primary mt-8">
+            Pediatric podiatry <Icon name="arrow" class="size-4" />
+          </a>
+        </div>
+        <ul class="grid gap-3 sm:grid-cols-2">
+          {servicesIn(kids.title).map((s, i) => (
+            <li class:list={[i === 0 && "sm:col-span-2"]}>
+              <a href={`/services/${s.slug}`} class="group flex h-full items-center gap-4 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-navy-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl">
+                <img src={thumbOf(s.slug)} alt="" width="160" height="160" loading="lazy" class="size-20 shrink-0 rounded-2xl object-cover sm:size-24" />
+                <span>
+                  <span class="block font-serif text-xl text-navy-900">{s.title}</span>
+                  <span class="mt-1 block text-sm text-muted">{s.summary.split(". ")[0].replace(/\.$/, "")}.</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {rest.map((c, idx) => (
+      <section class:list={["section", idx % 2 === 1 && "bg-sand-100"]} aria-labelledby={`h-cat-${idx}`}>
+        <div class="container-x">
+          <div class="max-w-2xl">
+            <p class="eyebrow">{c.title}</p>
+            <h2 id={`h-cat-${idx}`} class="h-section">{c.blurb}</h2>
+          </div>
+          <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {servicesIn(c.title).map((s) => (
+              <li>
+                <a href={`/services/${s.slug}`} class="group flex h-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-navy-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl">
+                  <img src={thumbOf(s.slug)} alt="" width="600" height="400" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-105" />
+                  <span class="flex flex-1 flex-col p-6">
+                    <span class="font-serif text-2xl text-navy-900">{s.title}</span>
+                    <span class="mt-2 text-[0.95rem] text-muted">{s.summary}</span>
+                    <span class="link-arrow mt-auto pt-5">Learn more <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" /></span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
+
+    <section class="relative isolate overflow-hidden bg-navy-900 py-16 text-white sm:py-20">
+      <Watermark class="-right-10 -bottom-16 h-[26rem] bg-white/[0.05]" />
+      <div class="container-x relative text-center">
+        <h2 class="mx-auto max-w-2xl text-3xl text-white! sm:text-5xl">Not sure which service you need?</h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg text-white/75">Call us. We will point you to the right visit.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/#contact" class="btn-primary">Book an Appointment</a>
+          <a href={practice.phoneHref} class="btn-ghost-light">Call {practice.phone}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

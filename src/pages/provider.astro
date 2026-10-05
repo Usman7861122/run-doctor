@@ -1,0 +1,110 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import CtaBand from "@/components/sections/CtaBand.astro";
+import { breadcrumbs } from "@/data/schema";
+import { cryderman, maurerWork, physicians, practice, siteUrl } from "@/data/site";
+
+const title = "Our Providers: Dr. Maurer & Dr. Cryderman | Kirkland Podiatrists";
+const description =
+  "Meet Dr. Lawrence Maurer and Dr. Kate Cryderman, podiatrists and foot and ankle surgeons in Kirkland, WA. Sports medicine for every age. Call 425-899-3234.";
+
+const maurer = physicians[0];
+const kate = physicians[1];
+
+const person = (id: string, name: string, jobTitle: string, img: string, alumni: string[], desc: string) => ({
+  "@type": "Physician",
+  "@id": `${siteUrl}/provider#${id}`,
+  name,
+  jobTitle,
+  description: desc,
+  image: new URL(img, siteUrl).href,
+  medicalSpecialty: "Podiatric",
+  alumniOf: alumni.map((a) => ({ "@type": "CollegeOrUniversity", name: a })),
+  worksFor: { "@id": `${siteUrl}/#clinic` },
+  url: new URL(`/provider#${id}`, siteUrl).href,
+});
+
+const jsonLd = [
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Providers", path: "/provider" }]),
+  person("maurer", "Lawrence Maurer, DPM", maurer.title, maurer.img, ["Barry University"], maurer.bio),
+  person("cryderman", "Kate Cryderman, DPM", kate.title, "/images/dr-cryderman.webp", ["Northwest Nazarene University", "Samuel Merritt University"], kate.bio),
+  {
+    "@type": "ProfilePage",
+    "@id": `${siteUrl}/provider#page`,
+    url: new URL("/provider", siteUrl).href,
+    name: title,
+    description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} image="/images/dr-maurer.webp" jsonLd={jsonLd}>
+  <Header />
+  <main id="main">
+    <PageHero
+      crumb="Providers"
+      eyebrow="Our Providers"
+      title="Meet your Kirkland foot and ankle doctors"
+      intro="Dr. Maurer and Dr. Cryderman are both active people. They know what it takes to get you back to the things you love."
+    />
+
+    <section id="maurer" class="section bg-cream scroll-mt-24">
+      <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-start">
+        <img src={maurer.img} alt="Dr. Lawrence Maurer, foot and ankle surgeon in Kirkland" width="640" height="760" loading="lazy" class="w-full rounded-3xl object-cover lg:col-span-4" />
+        <div class="lg:col-span-8">
+          <p class="eyebrow">{maurer.title}</p>
+          <h2 class="h-section mt-3">{maurer.name}</h2>
+          <p class="mt-5 text-lg text-muted">{maurer.bio}</p>
+          <p class="mt-4 text-lg text-muted">
+            Dr. Maurer treats sports injuries, heel and arch pain, bunions and more. He also does foot and ankle surgery when it is the right choice for you.
+          </p>
+          <ul class="mt-6 flex flex-wrap gap-2">
+            {maurer.tags.map((t) => <li class="rounded-full bg-white px-4 py-2 text-sm font-medium text-navy-900 ring-1 ring-navy-900/10">{t}</li>)}
+          </ul>
+          <h3 class="mt-10 font-serif text-2xl text-navy-900">Beyond the clinic</h3>
+          <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+            {maurerWork.map((w) => (
+              <li class="rounded-2xl bg-white p-5 ring-1 ring-navy-900/5">
+                <p class="font-semibold text-navy-900">{w.label}</p>
+                <p class="mt-1 text-sm text-muted">{w.text}</p>
+              </li>
+            ))}
+          </ul>
+          <a href={practice.photographySite} rel="noopener" class="link-arrow mt-6">See Dr. Maurer's photography</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="cryderman" class="section bg-ember-50 scroll-mt-24">
+      <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-start">
+        <div class="lg:col-span-8 lg:order-1">
+          <p class="eyebrow">{kate.title}</p>
+          <h2 class="h-section mt-3">{kate.name}</h2>
+          <p class="mt-5 text-lg text-muted">{cryderman.intro}</p>
+          <p class="mt-4 text-lg text-muted">{cryderman.story}</p>
+          <p class="mt-4 text-lg text-muted">{cryderman.focus}</p>
+          <h3 class="mt-10 font-serif text-2xl text-navy-900">Her path</h3>
+          <ol class="mt-4 space-y-3 border-l-2 border-ember-500/40 pl-5">
+            {cryderman.journey.map((j) => (
+              <li>
+                <p class="font-semibold text-navy-900">{j.place}</p>
+                <p class="text-sm text-muted">{j.detail}</p>
+              </li>
+            ))}
+          </ol>
+          <p class="mt-8 text-muted">{cryderman.offDuty}</p>
+          <p class="mt-4"><a href="/services/pediatric-podiatry" class="link-arrow">See our pediatric foot care</a></p>
+        </div>
+        <img src={cryderman.portrait} alt="Dr. Kate Cryderman, podiatrist in Kirkland" width="640" height="760" loading="lazy" class="w-full rounded-3xl object-cover lg:col-span-4 lg:order-2" />
+      </div>
+    </section>
+
+    <CtaBand title="Book with Dr. Maurer or Dr. Cryderman" />
+  </main>
+  <Footer />
+</BaseLayout>

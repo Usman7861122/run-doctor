@@ -69,92 +69,66 @@ const ext = (external?: boolean) =>
                 <Fragment set:html={chevron} />
               </button>
 
-              {item.kind === "mega" ? (
-                <div
-                  id={`panel-${i}`}
-                  class="menu-panel mega fixed inset-x-0 top-20"
-                  data-menu-panel
-                >
-                  <div class="container-x">
-                    <div class="overflow-hidden rounded-b-[2rem] bg-white shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5">
-                      <div class="grid grid-cols-12">
-                        <div class="col-span-8 grid grid-cols-4 gap-8 p-10 xl:col-span-9">
-                          {item.columns.map((col, c) => (
-                            <div class="menu-col" style={`--d:${c * 45}ms`}>
-                              <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">
-                                {col.title}
-                              </p>
-                              <ul class="mt-4 space-y-0.5">
-                                {col.links.map((l) => (
-                                  <li>
-                                    <a href={l.href} class="mega-link">
-                                      {l.label}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                        <a
-                          href={item.feature.cta.href}
-                          class="group/feat relative col-span-4 flex min-h-80 flex-col justify-end overflow-hidden bg-navy-900 p-8 text-white xl:col-span-3"
-                        >
-                          <img
-                            src={item.feature.img}
-                            alt=""
-                            loading="lazy"
-                            class="absolute inset-0 size-full object-cover opacity-60 transition duration-700 ease-(--ease-elegant) group-hover/feat:scale-105 group-hover/feat:opacity-45"
-                            onerror="this.style.display='none'"
-                          />
-                          <span class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-transparent" />
-                          <span class="relative">
-                            <span class="text-xs font-semibold tracking-[0.2em] text-ember-400 uppercase">
-                              {item.feature.eyebrow}
-                            </span>
-                            <span class="mt-2 block font-serif text-3xl leading-tight">
-                              {item.feature.title}
-                            </span>
-                            <span class="mt-2 block text-sm text-white/75">
-                              {item.feature.text}
-                            </span>
-                            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-ember-400">
-                              {item.feature.cta.label}
-                              <Icon
-                                name="arrow"
-                                class="size-4 transition-transform group-hover/feat:translate-x-1"
-                              />
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      <div class="flex items-center justify-between gap-6 border-t border-navy-900/5 bg-sand-50 px-10 py-4 text-sm">
-                        <p class="text-muted">
-                          Same week appointments are often available.
-                        </p>
-                        <a
-                          href={practice.phoneHref}
-                          class="inline-flex min-h-11 items-center gap-2 font-semibold text-navy-900 hover:text-ember-600"
-                        >
-                          <Icon name="phone" class="size-4 text-ember-600" />
-                          Call {practice.phone}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div
+              <div
                   id={`panel-${i}`}
                   class="menu-panel drop absolute top-full left-1/2 pt-4"
                   data-menu-panel
                 >
                   <div
                     class:list={[
-                      "flex overflow-hidden rounded-3xl bg-white shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5",
-                      item.aside ? "w-[36rem]" : "w-80",
+                      "flex rounded-3xl bg-white shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5",
+                      !item.groups && "overflow-hidden",
+                      item.aside ? "w-[36rem]" : item.groups ? "w-64" : "w-80",
                     ]}
                   >
+                    {item.groups ? (
+                      <div class="flex-1 p-3">
+                        <ul>
+                          {item.groups.map((g) => (
+                            <li class="cat relative">
+                              <button
+                                type="button"
+                                class:list={["cat-row", g.featured && "cat-featured"]}
+                                aria-haspopup="true"
+                              >
+                                <span class="flex items-center gap-2">
+                                  {g.title}
+                                  {g.featured && (
+                                    <span class="rounded-full bg-ember-500 px-2 py-0.5 text-[0.6rem] font-bold tracking-wider text-white uppercase">
+                                      Featured
+                                    </span>
+                                  )}
+                                </span>
+                                <Icon name="arrow" class="size-4" />
+                              </button>
+                              <div class="cat-sub absolute top-0 left-full pl-3">
+                                <ul class="w-64 rounded-2xl bg-white p-2 shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5">
+                                  {g.links.map((l) => (
+                                    <li>
+                                      <a href={l.href} class="drop-link-sm">
+                                        {l.label}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                        {item.footer && (
+                          <a
+                            href={item.footer.href}
+                            class="group/foot mt-2 flex min-h-11 items-center justify-between rounded-xl border-t border-navy-900/5 px-4 pt-2 text-sm font-semibold text-navy-900 hover:text-ember-600"
+                          >
+                            {item.footer.label}
+                            <Icon
+                              name="arrow"
+                              class="size-4 text-ember-600 transition-transform group-hover/foot:translate-x-1"
+                            />
+                          </a>
+                        )}
+                      </div>
+                    ) : (
                     <ul class="flex-1 p-3">
                       {item.links.map((l) => (
                         <li>
@@ -184,6 +158,7 @@ const ext = (external?: boolean) =>
                         </li>
                       ))}
                     </ul>
+                    )}
                     {item.aside && (
                       <div class="flex w-52 flex-col justify-between bg-navy-900 p-6 text-white">
                         <div>
@@ -202,7 +177,6 @@ const ext = (external?: boolean) =>
                     )}
                   </div>
                 </div>
-              )}
             </li>
           ),
         )}
@@ -233,13 +207,6 @@ const ext = (external?: boolean) =>
       </button>
     </div>
   </div>
-
-  <!-- Dims the page behind the open mega menu -->
-  <div
-    id="menu-backdrop"
-    class="pointer-events-none fixed inset-x-0 top-20 bottom-0 -z-10 bg-navy-950/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-500 data-[show=true]:opacity-100"
-    data-show="false"
-  ></div>
 
   <!-- ================= Mobile menu ================= -->
   <div
@@ -292,34 +259,46 @@ const ext = (external?: boolean) =>
               </button>
               <div id={`m-panel-${i}`} class="acc-panel" data-open="false">
                 <div class="overflow-hidden">
-                  {item.kind === "mega" ? (
-                    <div class="space-y-6 pt-1 pb-6">
-                      {item.columns.map((col) => (
-                        <div>
-                          <p class="text-xs font-semibold tracking-[0.2em] text-ember-400 uppercase">
-                            {col.title}
-                          </p>
-                          <ul class="mt-2 grid grid-cols-2 gap-x-4">
-                            {col.links.map((l) => (
+                  {item.groups ? (
+                    <div class="pt-1 pb-6">
+                      {item.groups.map((g) => (
+                        <details class="group/d border-b border-white/10" open={g.featured}>
+                          <summary class="flex min-h-12 cursor-pointer list-none items-center justify-between text-lg text-white/90 [&::-webkit-details-marker]:hidden">
+                            <span class="flex items-center gap-2">
+                              {g.title}
+                              {g.featured && (
+                                <span class="rounded-full bg-ember-500 px-2 py-0.5 text-[0.6rem] font-bold tracking-wider text-white uppercase">
+                                  Featured
+                                </span>
+                              )}
+                            </span>
+                            <span class="text-ember-400 transition-transform group-open/d:rotate-180">
+                              <Fragment set:html={chevron} />
+                            </span>
+                          </summary>
+                          <ul class="pb-3 pl-3">
+                            {g.links.map((l) => (
                               <li>
                                 <a
                                   href={l.href}
-                                  class="mobile-link flex min-h-11 items-center text-white/80 hover:text-white"
+                                  class="mobile-link flex min-h-11 items-center text-white/75 hover:text-white"
                                 >
                                   {l.label}
                                 </a>
                               </li>
                             ))}
                           </ul>
-                        </div>
+                        </details>
                       ))}
-                      <a
-                        href={item.feature.cta.href}
-                        class="mobile-link inline-flex min-h-11 items-center gap-2 font-semibold text-ember-400"
-                      >
-                        {item.feature.cta.label}{" "}
-                        <Icon name="arrow" class="size-4" />
-                      </a>
+                      {item.footer && (
+                        <a
+                          href={item.footer.href}
+                          class="mobile-link mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-ember-400"
+                        >
+                          {item.footer.label}{" "}
+                          <Icon name="arrow" class="size-4" />
+                        </a>
+                      )}
                     </div>
                   ) : (
                     <ul class="pt-1 pb-5">
@@ -404,30 +383,41 @@ const ext = (external?: boolean) =>
     transform: translate(-50%, 0);
   }
 
-  /* Mega columns stagger in */
-  .menu-col {
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 0.4s var(--ease-elegant),
-      transform 0.5s var(--ease-elegant);
+  .cat-row {
+    @apply text-navy-900 flex min-h-11 w-full items-center justify-between rounded-xl px-4 text-left text-[0.95rem] font-semibold transition-colors;
   }
-  .menu-item[data-open="true"] .menu-col {
+  .cat-featured {
+    @apply bg-ember-50;
+  }
+  .cat-row :global(svg) {
+    @apply text-ember-600 -translate-x-1 opacity-0 transition duration-300;
+  }
+  .cat:hover > .cat-row,
+  .cat:focus-within > .cat-row {
+    @apply bg-ember-50 text-ember-600;
+  }
+  .cat:hover > .cat-row :global(svg),
+  .cat:focus-within > .cat-row :global(svg) {
+    @apply translate-x-0 opacity-100;
+  }
+  .cat-sub {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.25s var(--ease-elegant),
+      transform 0.35s var(--ease-elegant),
+      visibility 0s linear 0.25s;
+  }
+  .cat:hover > .cat-sub,
+  .cat:focus-within > .cat-sub {
+    visibility: visible;
     opacity: 1;
     transform: none;
-    transition-delay: calc(var(--d) + 80ms);
+    transition-delay: 0s;
   }
-
-  .mega-link {
-    @apply text-navy-900 hover:bg-ember-50 hover:text-ember-600 relative -mx-3 flex min-h-10 items-center rounded-lg px-3 text-[0.95rem] transition-colors;
-  }
-  .mega-link::before {
-    content: "";
-    @apply bg-ember-500 absolute top-1/2 left-0 h-4 w-0.5 -translate-y-1/2 scale-y-0 rounded-full transition-transform duration-300;
-  }
-  .mega-link:hover::before,
-  .mega-link:focus-visible::before {
-    @apply scale-y-100;
+  .drop-link-sm {
+    @apply text-navy-900 hover:bg-ember-50 hover:text-ember-600 flex min-h-9 items-center rounded-lg px-3 text-[0.92rem] transition-colors;
   }
   .drop-link {
     @apply hover:bg-sand-50 block rounded-2xl px-4 py-3 transition-colors;
@@ -445,7 +435,7 @@ const ext = (external?: boolean) =>
 
   @media (prefers-reduced-motion: reduce) {
     .menu-panel,
-    .menu-col,
+    .cat-sub,
     .acc-panel {
       transition: none !important;
     }
@@ -454,7 +444,6 @@ const ext = (external?: boolean) =>
 
 <script>
   const header = document.getElementById("site-header")!;
-  const backdrop = document.getElementById("menu-backdrop")!;
   const items = Array.from(
     document.querySelectorAll<HTMLElement>("[data-menu-item]"),
   );
@@ -484,7 +473,6 @@ const ext = (external?: boolean) =>
         .querySelector("[data-menu-trigger]")!
         .setAttribute("aria-expanded", "true");
     }
-    backdrop.dataset.show = String(!!item?.querySelector(".menu-panel.mega"));
     updateSolid();
   };
 

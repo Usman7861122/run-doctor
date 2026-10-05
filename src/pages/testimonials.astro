@@ -1,0 +1,69 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import CtaBand from "@/components/sections/CtaBand.astro";
+import Icon from "@/components/ui/Icon.astro";
+import { breadcrumbs } from "@/data/schema";
+import { practice, siteUrl, testimonials } from "@/data/site";
+
+const title = "Patient Reviews & Testimonials | Run Doctor, Kirkland WA";
+const description = `Read what patients say about Dr. Maurer and Dr. Cryderman in Kirkland, WA. Rated ${practice.rating.score} out of 5 from ${practice.rating.count}+ reviews.`;
+
+const jsonLd = [
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Testimonials", path: "/testimonials" }]),
+  {
+    "@type": "WebPage",
+    "@id": `${siteUrl}/testimonials#page`,
+    url: new URL("/testimonials", siteUrl).href,
+    name: title,
+    description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#clinic` },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <Header />
+  <main id="main">
+    <PageHero
+      crumb="Testimonials"
+      eyebrow="Patient Stories"
+      title="What our Kirkland patients say"
+      intro={`Rated ${practice.rating.score} out of 5 from ${practice.rating.count}+ reviews on Google, Yelp and Healthgrades.`}
+    />
+
+    <section class="section bg-cream">
+      <div class="container-x">
+        <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t) => (
+            <li class="flex flex-col rounded-3xl bg-white p-8 ring-1 ring-navy-900/5">
+              <Icon name="quote" class="size-8 text-ember-500" />
+              <blockquote class="mt-4 flex-1 text-lg text-navy-900">“{t.quote}”</blockquote>
+              <p class="mt-6 text-sm text-muted"><span class="font-semibold text-navy-900">{t.name}</span> · {t.source} review</p>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-10 text-center text-sm text-muted">
+          Reviews are shared by patients on public sites. Every patient's care and results are different.
+        </p>
+      </div>
+    </section>
+
+    <section class="section bg-ember-50">
+      <div class="container-x text-center">
+        <h2 class="h-section mx-auto max-w-2xl">Want to learn about our care?</h2>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/provider" class="btn-outline">Meet the doctors</a>
+          <a href="/services" class="btn-outline">See our services</a>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand title="Join our happy patients" />
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,343 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import Icon from "@/components/ui/Icon.astro";
+import Watermark from "@/components/ui/Watermark.astro";
+import {
+  getService,
+  ogOf,
+  photoOf,
+  thumbOf,
+  services,
+  type Service,
+} from "@/data/services";
+import { breadcrumbs, clinicSchema } from "@/data/schema";
+import { lastUpdated, practice, siteUrl } from "@/data/site";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service: s } = Astro.props as { service: Service };
+const url = new URL(`/services/${s.slug}`, siteUrl).href;
+const isKids = s.category === "Kids & Teens";
+const related = s.related
+  .map((slug) => getService(slug))
+  .filter((r): r is Service => Boolean(r));
+
+const toc = [
+  { id: "overview", label: `About ${s.title.toLowerCase()}` },
+  { id: "symptoms", label: "Signs and symptoms" },
+  { id: "causes", label: "Common causes" },
+  { id: "diagnosis", label: "How we diagnose it" },
+  { id: "treatment", label: "Treatment options" },
+  { id: "when-to-see-us", label: "When to see a podiatrist" },
+  { id: "prevention", label: "Prevention tips" },
+  { id: "faq", label: "Frequently asked questions" },
+];
+
+const jsonLd = [
+  breadcrumbs([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: s.title, path: `/services/${s.slug}` },
+  ]),
+  {
+    "@type": "MedicalWebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: s.metaTitle,
+    description: s.metaDescription,
+    inLanguage: "en-US",
+    dateModified: lastUpdated,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@type": "Thing", name: s.title },
+    publisher: { "@id": clinicSchema["@id"] },
+    primaryImageOfPage: new URL(photoOf(s.slug), siteUrl).href,
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: s.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={s.metaTitle}
+  description={s.metaDescription}
+  image={ogOf(s.slug)}
+  imageAlt={s.imageAlt}
+  jsonLd={jsonLd}
+>
+  <a
+    href="#main"
+    class="sr-only z-[60] rounded-full bg-ember-500 px-5 py-3 font-semibold text-navy-950 focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+  >
+    Skip to content
+  </a>
+  <Header />
+  <main id="main">
+    <!-- ============ Hero ============ -->
+    <section class="relative isolate overflow-hidden bg-navy-950 pt-36 pb-14 text-white sm:pt-44 sm:pb-20">
+      <img
+        src={photoOf(s.slug)}
+        alt={s.imageAlt}
+        width="1600"
+        height="900"
+        fetchpriority="high"
+        class="absolute inset-0 -z-20 size-full object-cover"
+      />
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/95 via-navy-950/75 to-navy-950/35"></div>
+      <div class="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-navy-950/60 to-transparent"></div>
+
+      <div class="container-x">
+        <nav aria-label="Breadcrumb" class="text-sm text-white/70">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <li><a href="/" class="hover:text-white">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/services" class="hover:text-white">Services</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" class="text-white">{s.title}</li>
+          </ol>
+        </nav>
+
+        <p class="eyebrow mt-8 text-ember-400!">
+          {s.category}
+          {isKids && <span class="ml-1 rounded-full bg-ember-500 px-2.5 py-0.5 text-[0.65rem] font-bold tracking-wider text-white">FEATURED</span>}
+        </p>
+        <h1 class="mt-4 max-w-4xl text-4xl leading-[1.08] text-white! sm:text-6xl">
+          {s.h1}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">
+          {s.summary}
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="/#contact" class="btn-primary">
+            Book an Appointment
+            <Icon name="arrow" class="size-4" />
+          </a>
+          <a href={practice.phoneHref} class="btn-ghost-light">
+            Call {practice.phone}
+          </a>
+        </div>
+
+        <dl class="mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
+          {s.quickFacts.map((f) => (
+            <div class="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+              <dt class="text-xs font-semibold tracking-[0.18em] text-ember-400 uppercase">{f.label}</dt>
+              <dd class="mt-2 text-[0.95rem] text-white/90">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ Body ============ -->
+    <div class="relative overflow-clip">
+      <div class="container-x grid gap-14 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_23rem]">
+        <article class="min-w-0 space-y-16">
+          <section id="overview" class="scroll-mt-28" aria-labelledby="h-overview">
+            <h2 id="h-overview" class="text-3xl sm:text-4xl">Understanding {s.title.toLowerCase()}</h2>
+            <div class="mt-6 space-y-5 text-lg text-ink/90">
+              {s.overview.map((p) => <p>{p}</p>)}
+            </div>
+          </section>
+
+          <section id="symptoms" class="scroll-mt-28" aria-labelledby="h-symptoms">
+            <h2 id="h-symptoms" class="text-3xl sm:text-4xl">Signs and symptoms</h2>
+            <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+              {s.symptoms.map((t) => (
+                <li class="flex items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-navy-900/5">
+                  <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ember-100 text-ember-600">
+                    <Icon name="check" class="size-3.5" />
+                  </span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section id="causes" class="scroll-mt-28" aria-labelledby="h-causes">
+            <h2 id="h-causes" class="text-3xl sm:text-4xl">Common causes</h2>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              {s.causes.map((c) => (
+                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-navy-900/5">
+                  <h3 class="font-serif text-xl text-navy-900">{c.title}</h3>
+                  <p class="mt-2 text-[0.95rem] text-muted">{c.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="diagnosis" class="scroll-mt-28" aria-labelledby="h-diagnosis">
+            <h2 id="h-diagnosis" class="text-3xl sm:text-4xl">How we diagnose it</h2>
+            <div class="mt-6 rounded-[2rem] bg-navy-900 p-8 text-white sm:p-10">
+              <p class="text-lg text-white/90">{s.diagnosis}</p>
+              <p class="mt-6 flex items-center gap-3 border-t border-white/10 pt-5 text-sm text-white/65">
+                <Icon name="activity" class="size-5 text-ember-400" />
+                Biomechanical exam and gait analysis are part of how we work.
+              </p>
+            </div>
+          </section>
+
+          <section id="treatment" class="scroll-mt-28" aria-labelledby="h-treatment">
+            <h2 id="h-treatment" class="text-3xl sm:text-4xl">Treatment options</h2>
+            <p class="mt-4 text-muted">We start with conservative care. Surgery is only discussed when it is the best option for you.</p>
+            <ol class="mt-8 space-y-4">
+              {s.treatments.map((t, i) => (
+                <li class="flex gap-5 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-navy-900/5">
+                  <span class="grid size-11 shrink-0 place-items-center rounded-full bg-ember-500 font-serif text-xl text-white">{i + 1}</span>
+                  <div>
+                    <h3 class="font-serif text-xl text-navy-900">{t.title}</h3>
+                    <p class="mt-1.5 text-[0.95rem] text-muted">{t.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section id="when-to-see-us" class="scroll-mt-28" aria-labelledby="h-when">
+            <h2 id="h-when" class="text-3xl sm:text-4xl">When to see a podiatrist</h2>
+            <div class="mt-6 rounded-[2rem] border-l-4 border-ember-500 bg-ember-50 p-7 sm:p-9">
+              <ul class="space-y-3">
+                {s.whenToSeeUs.map((t) => (
+                  <li class="flex items-start gap-3">
+                    <Icon name="shield" class="mt-1 size-5 shrink-0 text-ember-600" />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={practice.phoneHref} class="btn-primary mt-7">
+                <Icon name="phone" class="size-4" />
+                Call {practice.phone}
+              </a>
+            </div>
+          </section>
+
+          <section id="prevention" class="scroll-mt-28" aria-labelledby="h-prevention">
+            <h2 id="h-prevention" class="text-3xl sm:text-4xl">Prevention tips</h2>
+            <ul class="mt-6 grid gap-3">
+              {s.prevention.map((t) => (
+                <li class="flex items-start gap-3">
+                  <Icon name="check" class="mt-1 size-5 shrink-0 text-ember-600" />
+                  <span class="text-lg">{t}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section id="faq" class="scroll-mt-28" aria-labelledby="h-faq">
+            <h2 id="h-faq" class="text-3xl sm:text-4xl">Frequently asked questions</h2>
+            <div class="mt-6 divide-y divide-navy-900/10 overflow-hidden rounded-3xl bg-white ring-1 ring-navy-900/5">
+              {s.faqs.map((f, i) => (
+                <details class="faq group" open={i === 0}>
+                  <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-semibold text-navy-900 [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span class="grid size-8 shrink-0 place-items-center rounded-full bg-ember-100 text-ember-600 transition-transform duration-300 group-open:rotate-45">
+                      <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                  </summary>
+                  <p class="px-6 pb-6 text-muted">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          <section aria-labelledby="h-related">
+            <h2 id="h-related" class="text-3xl sm:text-4xl">Related care</h2>
+            <ul class="mt-6 grid gap-4 sm:grid-cols-3">
+              {related.map((r) => (
+                <li>
+                  <a href={`/services/${r.slug}`} class="group block h-full overflow-hidden rounded-3xl bg-white ring-1 ring-navy-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl">
+                    <img src={thumbOf(r.slug)} alt="" width="400" height="260" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-105" />
+                    <div class="p-5">
+                      <p class="text-xs font-semibold tracking-[0.18em] text-ember-600 uppercase">{r.category}</p>
+                      <h3 class="mt-1 font-serif text-xl text-navy-900">{r.title}</h3>
+                      <span class="link-arrow mt-3">Learn more <Icon name="arrow" class="size-4" /></span>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <p class="border-t border-navy-900/10 pt-6 text-sm text-muted">
+            This page is general information. It is not medical advice and it
+            does not replace an exam. If you have severe pain, an open wound,
+            fever, or sudden numbness, get urgent care. Last updated
+            <time datetime={lastUpdated}> October 5, 2026</time>.
+          </p>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="lg:sticky lg:top-28 lg:self-start">
+          <div class="space-y-5">
+            <div class="relative overflow-hidden rounded-[2rem] bg-navy-900 p-7 text-white">
+              <Watermark class="-right-10 -bottom-12 h-64 bg-white/[0.06]" />
+              <div class="relative">
+                <p class="font-serif text-3xl text-white">Ready to feel better?</p>
+                <p class="mt-3 text-white/75">
+                  Book a visit with Dr. Maurer or Dr. Cryderman in Kirkland.
+                </p>
+                <a href="/#contact" class="btn-primary mt-6 w-full">Request an Appointment</a>
+                <a href={practice.phoneHref} class="mt-3 flex min-h-11 items-center justify-center gap-2 font-semibold text-white hover:text-ember-400">
+                  <Icon name="phone" class="size-4 text-ember-400" />
+                  {practice.phone}
+                </a>
+                <p class="mt-4 border-t border-white/10 pt-4 text-sm text-white/60">
+                  {practice.address.line1}, {practice.address.line2}
+                </p>
+              </div>
+            </div>
+
+            <nav aria-label="On this page" class="hidden rounded-[2rem] bg-white p-7 ring-1 ring-navy-900/5 lg:block">
+              <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">On this page</p>
+              <ul class="mt-4 space-y-1">
+                {toc.map((t) => (
+                  <li>
+                    <a href={`#${t.id}`} class="block rounded-lg px-3 py-1.5 text-[0.95rem] text-navy-900 hover:bg-ember-50 hover:text-ember-600">{t.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {!isKids && (
+              <a href="/services/pediatric-podiatry" class="group block rounded-[2rem] bg-ember-50 p-7 ring-1 ring-ember-100 transition hover:shadow-xl">
+                <p class="text-xs font-semibold tracking-[0.2em] text-ember-600 uppercase">Kids &amp; Teens</p>
+                <p class="mt-2 font-serif text-2xl text-navy-900">Foot care for your child</p>
+                <p class="mt-2 text-sm text-muted">Gentle exams, growth checks and sports injury care.</p>
+                <span class="link-arrow mt-4">Pediatric podiatry <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" /></span>
+              </a>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- ============ Closing CTA ============ -->
+    <section class="relative isolate overflow-hidden bg-ember-500 py-16 sm:py-20">
+      <Watermark class="-bottom-16 -left-10 h-[26rem] bg-navy-950/[0.07]" />
+      <div class="container-x relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+        <div class="max-w-2xl">
+          <h2 class="text-3xl text-navy-950! sm:text-5xl">Let's get you moving again.</h2>
+          <p class="mt-4 text-lg text-navy-950/80">Serving Kirkland, Totem Lake, Bellevue, Redmond, Woodinville, Bothell and Seattle.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="/#contact" class="btn-dark">Book an Appointment</a>
+          <a href={practice.phoneHref} class="btn border border-navy-950/30 text-navy-950 hover:bg-navy-950 hover:text-white">Call {practice.phone}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

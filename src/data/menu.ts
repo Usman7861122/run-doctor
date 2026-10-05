@@ -11,31 +11,22 @@ export type MenuLink = {
   external?: boolean;
 };
 
-export type MegaMenu = {
-  kind: "mega";
-  label: string;
-  href: string;
-  columns: { title: string; links: MenuLink[] }[];
-  feature: {
-    eyebrow: string;
-    title: string;
-    text: string;
-    img: string;
-    cta: MenuLink;
-  };
-};
-
 export type DropMenu = {
   kind: "drop";
   label: string;
   href: string;
+  /** Simple list of links */
   links: MenuLink[];
+  /** Or grouped links under small headings (used by Services) */
+  groups?: { title: string; featured?: boolean; links: MenuLink[] }[];
+  /** Link shown at the bottom of a grouped drop-down */
+  footer?: MenuLink;
   aside?: { title: string; text: string; cta: MenuLink };
 };
 
 export type PlainLink = { kind: "link"; label: string; href: string };
 
-export type MenuItem = MegaMenu | DropMenu | PlainLink;
+export type MenuItem = DropMenu | PlainLink;
 
 export const menu: MenuItem[] = [
   {
@@ -72,10 +63,28 @@ export const menu: MenuItem[] = [
     },
   },
   {
-    kind: "mega",
+    kind: "drop",
     label: "Services",
     href: "/services",
-    columns: [
+    links: [],
+    groups: [
+      {
+        title: "Kids & Teens",
+        featured: true,
+        links: [
+          {
+            label: "Pediatric Podiatry",
+            href: "/services/pediatric-podiatry",
+          },
+          { label: "Growing Heels (Sever's)", href: "/services/severs-disease" },
+          { label: "Flat Feet in Kids", href: "/services/childrens-flat-feet" },
+          { label: "Toe Walking", href: "/services/toe-walking" },
+          {
+            label: "Youth Sports Injuries",
+            href: "/services/youth-sports-injuries",
+          },
+        ],
+      },
       {
         title: "Heel & Arch",
         links: [
@@ -117,17 +126,10 @@ export const menu: MenuItem[] = [
             label: "Arthritic Foot & Ankle Care",
             href: "/services/arthritic-foot-ankle-care",
           },
-          { label: "Pediatric Podiatry", href: "/services/pediatric-podiatry" },
         ],
       },
     ],
-    feature: {
-      eyebrow: "Not sure what's wrong?",
-      title: "Start with a gait analysis",
-      text: "We find the cause of your pain, not just the symptom.",
-      img: "/images/sports-medicine.webp",
-      cta: { label: "View all services", href: "/services" },
-    },
+    footer: { label: "View all services", href: "/services" },
   },
   {
     kind: "drop",

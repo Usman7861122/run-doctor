@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/sections/Header.astro";
 import Hero from "@/components/sections/Hero.astro";
 import About from "@/components/sections/About.astro";
+import Pediatrics from "@/components/sections/Pediatrics.astro";
 import Cryderman from "@/components/sections/Cryderman.astro";
 import FlipGrid from "@/components/sections/FlipGrid.astro";
 import Physicians from "@/components/sections/Physicians.astro";
@@ -31,6 +32,7 @@ import { conditions, treatments } from "@/data/site";
   <Header />
   <main id="main">
     <Hero />
+    <Pediatrics />
     <Cryderman />
     <About />
     {/* <Staff /> hidden for now; component kept in src/components/sections/Staff.astro */}
@@ -41,7 +43,7 @@ import { conditions, treatments } from "@/data/site";
       intro="From everyday aches to sports injuries, we diagnose the cause and treat it at the source."
       items={conditions}
       viewMoreLabel="View All Conditions"
-      viewMoreHref="#"
+      viewMoreHref="/services"
       tone="tint"
     />
     <FlipGrid
@@ -51,7 +53,7 @@ import { conditions, treatments } from "@/data/site";
       intro="Personal plans that blend conservative care with advanced surgical options when needed."
       items={treatments}
       viewMoreLabel="View All Treatments"
-      viewMoreHref="#"
+      viewMoreHref="/services"
     />
     <Physicians />
     <MaurerWork />

@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  crumb: string;
+  image?: string;
+}
+const { eyebrow, title, intro, crumb, image = "/videos/hero-poster.webp" } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-navy-950 pt-36 pb-16 text-white sm:pt-44 sm:pb-24">
+  <img src={image} alt="" width="1600" height="900" fetchpriority="high" class="absolute inset-0 -z-20 size-full object-cover" />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/95 via-navy-950/75 to-navy-950/40"></div>
+  <div class="container-x">
+    <nav aria-label="Breadcrumb" class="text-sm text-white/70">
+      <ol class="flex items-center gap-2">
+        <li><a href="/" class="hover:text-white">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-white">{crumb}</li>
+      </ol>
+    </nav>
+    <p class="eyebrow mt-8 text-ember-400!">{eyebrow}</p>
+    <h1 class="mt-4 max-w-4xl text-4xl leading-[1.08] text-white! sm:text-6xl">{title}</h1>
+    <p class="mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">{intro}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/#contact" class="btn-primary">Book an Appointment</a>
+      <a href={`tel:+14258993234`} class="btn-ghost-light">Call 425-899-3234</a>
+    </div>
+  </div>
+</section>

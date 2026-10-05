@@ -9,6 +9,12 @@
 const u = (id: string, w = 1200) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
 
+/** Production address of the site. Used for canonical URLs, sitemap and schema.
+ *  CHANGE THIS to the real domain before launch (or set SITE_URL when building). */
+export const siteUrl = import.meta.env.SITE ?? "https://www.rundoctor.com";
+/** Shown on service pages and in the sitemap (YYYY-MM-DD). */
+export const lastUpdated = "2026-10-05";
+
 export const practice = {
   name: "Washington Foot & Ankle Sports Medicine",
   shortName: "Run Doctor",
@@ -31,22 +37,21 @@ export const practice = {
 };
 
 export const nav = [
-  { label: "About", href: "#about" },
-  { label: "Conditions", href: "#conditions" },
-  { label: "Treatments", href: "#treatments" },
-  { label: "Physicians", href: "#physicians" },
-  { label: "Insurance", href: "#insurance" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Conditions", href: "/#conditions" },
+  { label: "Treatments", href: "/#treatments" },
+  { label: "Physicians", href: "/#physicians" },
+  { label: "Insurance", href: "/#insurance" },
+  { label: "Blog", href: "/#blog" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const images = {
-  hero: u("1476480862126-209bfaa8edc8", 2000),
   about: u("1552674605-db6ffd4facb5", 1200),
   aboutSmall: u("1579684385127-1ef15d508118", 800),
   physiciansBg: u("1461896836934-ffe607ba8211", 2000),
   maurerWork: u("1431324155629-1a6deb1dec8d", 1400),
-  oofos: u("1600185365483-26d7a4cc7519", 1200),
+  oofos: "/images/oofos-shoe.webp",
 };
 
 export const aboutPoints = [
@@ -106,29 +111,29 @@ export const conditions: FlipItem[] = [
     title: "Heel Pain",
     excerpt:
       "Sharp or aching pain under the heel can stop you in your tracks. We find the cause and build a plan to get you moving again.",
-    href: "#",
+    href: "/services/heel-pain",
     img: u("1571008887538-b36bb32f4571", 800),
   },
   {
     title: "Plantar Fasciitis",
     excerpt:
       "The most common cause of morning heel pain. Most patients get relief with stretching, orthotics and targeted care.",
-    href: "#",
+    href: "/services/plantar-fasciitis",
     img: u("1434596922112-19c563067271", 800),
   },
   {
     title: "Achilles Tendonitis",
     excerpt:
       "Overuse pain along the back of the ankle, common in runners. Early care helps prevent a long layoff or a rupture.",
-    href: "#",
+    href: "/services/achilles-tendonitis",
     img: u("1486218119243-13883505764c", 800),
   },
   {
     title: "Bunions",
     excerpt:
       "A bony bump at the base of the big toe. We offer both conservative options and modern surgical correction.",
-    href: "#",
-    img: u("1460353581641-37baddab0fa2", 800),
+    href: "/services/bunions",
+    img: "/images/bunions-shoe.webp",
   },
 ];
 
@@ -137,28 +142,28 @@ export const treatments: FlipItem[] = [
     title: "Custom Orthotics",
     excerpt:
       "Inserts made from a scan of your feet to correct alignment, ease pain and support your sport or daily routine.",
-    href: "#",
-    img: u("1542291026-7eec264c27ff", 800),
+    href: "/services/orthotics",
+    img: "/images/orthotics-shoe.webp",
   },
   {
     title: "Sports Medicine",
     excerpt:
       "Care for athletes of every level, from weekend runners to pros, with a focus on safe and fast return to play.",
-    href: "#",
+    href: "/services/sports-medicine",
     img: u("1517649763962-0c623066013b", 800),
   },
   {
     title: "Gait & Biomechanics",
     excerpt:
       "A detailed look at how you walk and run, so we can treat the root cause and prevent the next injury.",
-    href: "#",
+    href: "/services/biomechanics",
     img: u("1544367567-0f2fcb009e0b", 800),
   },
   {
     title: "Foot & Ankle Surgery",
     excerpt:
       "When surgery is needed, our surgeons use proven techniques with a clear plan for your recovery.",
-    href: "#",
+    href: "/services",
     img: u("1576091160399-112ba8d25d1d", 800),
   },
 ];
@@ -353,4 +358,45 @@ export const cryderman = {
 export const vincentNotice = {
   title: "A note for Dr. Vincent's patients",
   text: "Dr. Peter Vincent has departed from our practice. Your care remains our top priority and there will be no interruption in service. Dr. Maurer and Dr. Cryderman are both accepting appointments. If you would like to continue with Dr. Vincent, call us and we will share his new contact information as soon as it becomes available.",
+};
+
+/** Pediatric foot & ankle care: the practice's featured focus. Written for parents. */
+export const pediatrics = {
+  eyebrow: "Pediatric Foot & Ankle Care",
+  title: "Little feet. Big adventures.",
+  intro:
+    "Kids run, jump, climb and grow fast, and their feet grow with them. We help children and teens stay active and pain free, from first steps to varsity seasons.",
+  images: {
+    main: "/images/kids-run-field.webp",
+    top: "/images/kids-sprint.webp",
+    bottom: "/images/kids-soccer.webp",
+  },
+  cards: [
+    {
+      title: "Growing heels",
+      text: "Heel pain after sports in active kids is common during growth spurts. We find the cause and keep them playing safely.",
+    },
+    {
+      title: "Flat feet",
+      text: "Many young children have flat feet. We check what is normal, and what needs care.",
+    },
+    {
+      title: "Toe walking",
+      text: "Walking on tiptoes is common in toddlers. If it lasts, we look at why.",
+    },
+    {
+      title: "Youth sports",
+      text: "Sprains, overuse injuries and shoe advice for young athletes and their coaches.",
+    },
+  ],
+  signsTitle: "When to bring your child in",
+  signs: [
+    "Limping or favoring one foot",
+    "Heel or foot pain after sports",
+    "Complaints of tired or sore feet",
+    "Walking on tiptoes past toddler age",
+    "Shoes that wear unevenly",
+    "A foot that looks different from the other",
+  ],
+  note: "Tip: bring your child's everyday shoes and sports shoes to the visit. Worn soles tell us a lot.",
 };
