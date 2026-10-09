@@ -20,25 +20,18 @@ const ext = (external?: boolean) =>
     class="absolute inset-x-0 top-0 h-20 bg-sand-50/95 opacity-0 shadow-[0_1px_0_rgba(13,39,66,0.08)] backdrop-blur-lg transition-opacity duration-500 group-data-[solid=true]/header:opacity-100"
   ></div>
   <div class="container-x relative flex h-20 items-center justify-between gap-6">
-    <!-- Logo: white letters over the hero, swaps to the light-background version when the header turns solid -->
+    <!-- Logo: one transparent amber logo that works on dark and light headers -->
     <a
       href="/"
-      class="relative block h-11 w-[178px] shrink-0 sm:h-12 sm:w-[194px]"
+      class="relative block h-11 w-[172px] shrink-0 sm:h-12 sm:w-[187px]"
       aria-label={`${practice.shortName}, ${practice.name}, home`}
     >
       <img
-        src="/logos/rundoctor-logo-on-dark.svg"
+        src="/logos/rundoctor-logo-amber.png"
         alt=""
-        width="194"
-        height="48"
-        class="absolute inset-0 size-full transition-opacity duration-500 group-data-[solid=true]/header:opacity-0"
-      />
-      <img
-        src="/logos/rundoctor-logo-on-light.svg"
-        alt=""
-        width="194"
-        height="48"
-        class="absolute inset-0 size-full opacity-0 transition-opacity duration-500 group-data-[solid=true]/header:opacity-100"
+        width="1600"
+        height="411"
+        class="size-full object-contain object-left"
       />
     </a>
 
@@ -216,10 +209,10 @@ const ext = (external?: boolean) =>
   >
     <div class="container-x flex h-20 shrink-0 items-center justify-between">
       <img
-        src="/logos/rundoctor-logo-on-dark.svg"
+        src="/logos/rundoctor-logo-amber.png"
         alt="Run Doctor"
-        width="178"
-        height="44"
+        width="1600"
+        height="411"
         class="h-11 w-auto"
       />
       <button

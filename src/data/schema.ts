@@ -11,7 +11,7 @@ export const clinicSchema = {
   url: abs("/"),
   telephone: "+1-425-899-3234",
   image: abs("/images/og-default.jpg"),
-  logo: abs("/logos/rundoctor-logo-on-light.svg"),
+  logo: abs("/logos/rundoctor-logo-amber.png"),
   medicalSpecialty: ["Podiatric", "SportsMedicine"],
   address: {
     "@type": "PostalAddress",

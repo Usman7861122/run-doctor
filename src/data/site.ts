@@ -133,7 +133,7 @@ export const conditions: FlipItem[] = [
     excerpt:
       "A bony bump at the base of the big toe. We offer both conservative options and modern surgical correction.",
     href: "/services/bunions",
-    img: "/images/bunions-shoe.webp",
+    img: "/images/bunions-card.webp",
   },
 ];
 
@@ -164,7 +164,7 @@ export const treatments: FlipItem[] = [
     excerpt:
       "When surgery is needed, our surgeons use proven techniques with a clear plan for your recovery.",
     href: "/services",
-    img: u("1576091160399-112ba8d25d1d", 800),
+    img: "/images/surgery.webp",
   },
 ];
 
