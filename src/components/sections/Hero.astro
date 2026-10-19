@@ -44,7 +44,7 @@ import { practice } from "@/data/site";
   <div
     id="hero-badge"
     aria-hidden="true"
-    class="pointer-events-none absolute top-1/2 right-[6%] hidden aspect-square w-[min(34vw,30rem)] -translate-y-[45%] lg:block xl:right-[9%]"
+    class="pointer-events-none absolute top-1/2 right-[6%] hidden aspect-square w-[min(34vw,30rem)] lg:block xl:right-[9%]" style="transform: translateY(-45%)"
   >
     <img id="hero-ring" src="/logos/rundoctor-ring-white.svg" alt="" width="1000" height="1000" class="absolute inset-0 size-full will-change-transform drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]" />
     <img id="hero-mark" src="/logos/rundoctor-mark-orange.png" alt="" width="900" height="900" class="absolute top-[26.2%] left-[27.2%] w-[45.6%] will-change-transform drop-shadow-[0_4px_18px_rgba(0,0,0,0.4)]" />
@@ -81,10 +81,13 @@ import { practice } from "@/data/site";
   if (badge && ring && mark && !still) {
     let ticking = false;
     const update = () => {
-      const y = Math.min(window.scrollY, window.innerHeight * 1.2);
-      ring.style.transform = `rotate(${y * 0.22}deg)`;
-      mark.style.transform = `translateY(${y * -0.06}px) rotate(${y * -0.03}deg) scale(${1 + y * 0.0003})`;
-      badge.style.opacity = String(Math.max(0, 1 - y / (window.innerHeight * 0.9)));
+      const h = window.innerHeight;
+      const p = Math.min(window.scrollY / h, 1.2); // 0 at top, 1 after one screen
+      // The whole badge grows as you scroll (about 2.6x after one screen).
+      badge.style.transform = `translateY(-45%) scale(${1 + p * 1.6})`;
+      ring.style.transform = `rotate(${p * 160}deg)`;
+      mark.style.transform = `rotate(${p * -25}deg)`;
+      badge.style.opacity = String(Math.max(0, Math.min(1, 1.6 - p * 1.5)));
       ticking = false;
     };
     window.addEventListener("scroll", () => {
