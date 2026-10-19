@@ -30,7 +30,7 @@ export default function HeroText() {
         Expert foot and ankle care for runners, athletes and everyone who loves
         to stay active.
       </motion.p>
-      <motion.div {...item(0.6)} className="mt-10 flex flex-wrap gap-4">
+      <motion.div {...item(0.6)} className="mt-10 hidden flex-wrap gap-4 lg:flex">
         <a href="#contact" className="btn-primary">
           Book an Appointment
         </a>

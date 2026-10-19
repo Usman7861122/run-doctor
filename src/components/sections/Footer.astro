@@ -4,7 +4,7 @@ import { nav, practice } from "@/data/site";
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative overflow-hidden bg-navy-950 pt-20 pb-10 text-white/70">
+<footer class="relative overflow-hidden bg-navy-950 pt-20 pb-28 text-white/70 md:pb-10">
   <Watermark class="-right-20 -bottom-24 h-[30rem] bg-white/[0.035] sm:h-[38rem]" />
   <div class="container-x relative">
     <div class="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-12">
@@ -81,3 +81,40 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<!-- Sticky call and book buttons (phones only) -->
+<div
+  id="sticky-cta"
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-navy-950/95 px-4 pt-3 shadow-[0_-8px_24px_rgba(0,0,0,0.25)] backdrop-blur-md transition-transform duration-300 md:hidden"
+  style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
+>
+  <div class="mx-auto flex max-w-md gap-3">
+    <a
+      href={practice.phoneHref}
+      class="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 text-sm font-semibold text-white active:bg-white/20"
+    >
+      <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.65 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.22a2 2 0 0 1 2.11-.45c.84.31 1.72.53 2.62.65A2 2 0 0 1 22 16.92z"/></svg>
+      Call Us
+    </a>
+    <a
+      href="/#contact"
+      class="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-ember-500 px-4 text-sm font-semibold text-navy-950 shadow-lg shadow-ember-500/30 active:bg-ember-400"
+    >
+      Book Appointment
+    </a>
+  </div>
+</div>
+
+<script>
+  // Hide the bar while the contact form is on screen, so it never covers the form.
+  const bar = document.getElementById("sticky-cta");
+  const contact = document.getElementById("contact");
+  if (bar && contact && "IntersectionObserver" in window) {
+    new IntersectionObserver(
+      ([e]) => {
+        bar.style.transform = e.isIntersecting ? "translateY(110%)" : "";
+      },
+      { threshold: 0.25 },
+    ).observe(contact);
+  }
+</script>

@@ -4,9 +4,10 @@ import HeroText from "@/components/react/HeroText";
 import { practice } from "@/data/site";
 ---
 
+<div class="relative">
 <section
   id="top"
-  class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-navy-950 pt-28 pb-16 sm:items-center sm:pb-24"
+  class="relative isolate min-h-[92svh] overflow-hidden bg-navy-950 lg:min-h-[100svh]"
 >
   <!-- Background video (muted autoplay loop). Poster shows instantly while it loads. -->
   <video
@@ -26,28 +27,21 @@ import { practice } from "@/data/site";
   <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-navy-950/10"></div>
   <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
 
-  <div class="container-x">
-    <HeroText client:load />
-    <a
-      href="#pediatrics"
-      class="group mt-8 inline-flex min-h-11 items-center gap-3 rounded-full border border-white/20 bg-white/10 py-2 pr-5 pl-2 text-sm font-medium text-white backdrop-blur-md transition hover:bg-white/20"
-    >
-      <span class="rounded-full bg-ember-500 px-3 py-1 text-xs font-bold tracking-wider uppercase">
-        Kids
-      </span>
-      Foot and ankle care for children and teens
-      <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" />
-    </a>
-  </div>
 
   <!-- Round logo: ring turns and mark floats as you scroll (desktop) -->
   <div
     id="hero-badge"
     aria-hidden="true"
-    class="pointer-events-none absolute top-1/2 right-[6%] hidden aspect-square w-[min(34vw,30rem)] lg:block xl:right-[9%]" style="transform: translateY(-45%)"
+    class="pointer-events-none absolute inset-x-0 top-1/2 mx-auto aspect-square w-[min(72vw,22rem)] lg:inset-x-auto lg:right-[6%] lg:mx-0 lg:w-[min(34vw,30rem)] xl:right-[9%]" style="transform: translateY(-45%)"
   >
     <img id="hero-ring" src="/logos/rundoctor-ring-white.svg" alt="" width="1000" height="1000" class="absolute inset-0 size-full will-change-transform drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]" />
     <img id="hero-mark" src="/logos/rundoctor-mark-orange.png" alt="" width="900" height="900" class="absolute top-[26.2%] left-[27.2%] w-[45.6%] will-change-transform drop-shadow-[0_4px_18px_rgba(0,0,0,0.4)]" />
+  </div>
+
+  <!-- Phone buttons: centered under the round logo -->
+  <div class="absolute inset-x-0 bottom-10 z-10 flex flex-col items-center gap-3 px-6 lg:hidden">
+    <a href="#contact" class="btn-primary w-full max-w-xs justify-center">Book an Appointment</a>
+    <a href="#physicians" class="btn-ghost-light w-full max-w-xs justify-center">Meet Our Physicians</a>
   </div>
 
   <!-- Rating badge -->
@@ -65,6 +59,24 @@ import { practice } from "@/data/site";
     </div>
   </div>
 </section>
+
+  <!-- Headline: below the video on phones, over the video on desktop -->
+  <div class="relative bg-navy-950 pt-12 pb-16 lg:absolute lg:inset-x-0 lg:top-0 lg:flex lg:h-[100svh] lg:items-center lg:bg-transparent lg:pt-28 lg:pb-24">
+    <div class="container-x">
+      <HeroText client:load />
+      <a
+        href="#pediatrics"
+        class="group mt-8 inline-flex min-h-11 items-center gap-3 rounded-full border border-white/20 bg-white/10 py-2 pr-5 pl-2 text-sm font-medium text-white backdrop-blur-md transition hover:bg-white/20"
+      >
+        <span class="rounded-full bg-ember-500 px-3 py-1 text-xs font-bold tracking-wider uppercase">
+          Kids
+        </span>
+        Foot and ankle care for children and teens
+        <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </div>
+  </div>
+</div>
 
 <script>
   // Respect "reduce motion": stop the video and keep the still poster.
@@ -84,7 +96,8 @@ import { practice } from "@/data/site";
       const h = window.innerHeight;
       const p = Math.min(window.scrollY / h, 1.2); // 0 at top, 1 after one screen
       // The whole badge grows as you scroll (about 2.6x after one screen).
-      badge.style.transform = `translateY(-45%) scale(${1 + p * 1.6})`;
+      const grow = window.innerWidth < 1024 ? 0.9 : 1.6;
+      badge.style.transform = `translateY(-45%) scale(${1 + p * grow})`;
       ring.style.transform = `rotate(${p * 160}deg)`;
       mark.style.transform = `rotate(${p * -25}deg)`;
       badge.style.opacity = String(Math.max(0, Math.min(1, 1.6 - p * 1.5)));
