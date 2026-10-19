@@ -95,15 +95,34 @@ const ext = (external?: boolean) =>
                                 <Icon name="arrow" class="size-4" />
                               </button>
                               <div class="cat-sub absolute top-0 left-full pl-3">
-                                <ul class="w-64 rounded-2xl bg-white p-2 shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5">
-                                  {g.links.map((l) => (
-                                    <li>
-                                      <a href={l.href} class="drop-link-sm">
-                                        {l.label}
-                                      </a>
-                                    </li>
-                                  ))}
-                                </ul>
+                                <div class="sub-panel w-[23rem] rounded-2xl bg-white p-2 shadow-2xl shadow-navy-950/20 ring-1 ring-navy-900/5">
+                                  <div class="px-3 pt-3 pb-2">
+                                    <p class="text-ember-600 text-[0.7rem] font-bold tracking-[0.14em] uppercase">
+                                      {g.title}
+                                    </p>
+                                    {g.blurb && (
+                                      <p class="text-muted mt-1 text-[0.82rem] leading-snug">
+                                        {g.blurb}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <ul class="border-navy-900/5 border-t pt-1">
+                                    {g.links.map((l) => (
+                                      <li>
+                                        <a href={l.href} class="sub-row group/row">
+                                          <span class="sub-ico">
+                                            <Icon name={(l.icon ?? g.icon ?? "arrow") as any} class="size-[1.1rem]" />
+                                          </span>
+                                          <span class="min-w-0 flex-1">
+                                            <span class="sub-title">{l.label}</span>
+                                            {l.note && <span class="sub-note">{l.note}</span>}
+                                          </span>
+                                          <Icon name="arrow" class="sub-arrow size-4" />
+                                        </a>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
                               </div>
                             </li>
                           ))}
@@ -409,8 +428,36 @@ const ext = (external?: boolean) =>
     transform: none;
     transition-delay: 0s;
   }
-  .drop-link-sm {
-    @apply text-navy-900 hover:bg-ember-50 hover:text-ember-600 flex min-h-9 items-center rounded-lg px-3 text-[0.92rem] transition-colors;
+  .sub-row {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2 transition-colors duration-200;
+  }
+  .sub-ico {
+    @apply bg-navy-50 text-navy-700 grid size-9 shrink-0 place-items-center rounded-xl transition-colors duration-200;
+  }
+  .sub-title {
+    @apply text-navy-900 block text-[0.93rem] leading-tight font-semibold transition-colors duration-200;
+  }
+  .sub-note {
+    @apply text-muted mt-0.5 block text-[0.78rem] leading-snug;
+  }
+  .sub-row :global(.sub-arrow) {
+    @apply text-ember-600 -translate-x-1 opacity-0 transition duration-300;
+  }
+  .sub-row:hover,
+  .sub-row:focus-visible {
+    @apply bg-ember-50;
+  }
+  .sub-row:hover .sub-ico,
+  .sub-row:focus-visible .sub-ico {
+    @apply bg-ember-500 text-white;
+  }
+  .sub-row:hover .sub-title,
+  .sub-row:focus-visible .sub-title {
+    @apply text-ember-600;
+  }
+  .sub-row:hover :global(.sub-arrow),
+  .sub-row:focus-visible :global(.sub-arrow) {
+    @apply translate-x-0 opacity-100;
   }
   .drop-link {
     @apply hover:bg-sand-50 block rounded-2xl px-4 py-3 transition-colors;

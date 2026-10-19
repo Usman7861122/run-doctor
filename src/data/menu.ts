@@ -8,6 +8,8 @@ export type MenuLink = {
   label: string;
   href: string;
   note?: string;
+  /** Icon name from components/ui/Icon.astro (used in the Services flyouts) */
+  icon?: string;
   external?: boolean;
 };
 
@@ -18,7 +20,13 @@ export type DropMenu = {
   /** Simple list of links */
   links: MenuLink[];
   /** Or grouped links under small headings (used by Services) */
-  groups?: { title: string; featured?: boolean; links: MenuLink[] }[];
+  groups?: {
+    title: string;
+    blurb?: string;
+    icon?: string;
+    featured?: boolean;
+    links: MenuLink[];
+  }[];
   /** Link shown at the bottom of a grouped drop-down */
   footer?: MenuLink;
   aside?: { title: string; text: string; cta: MenuLink };
@@ -70,62 +78,64 @@ export const menu: MenuItem[] = [
     groups: [
       {
         title: "Kids & Teens",
+        blurb: "Gentle care from first steps to varsity seasons",
+        icon: "heart",
         featured: true,
         links: [
-          {
-            label: "Pediatric Podiatry",
-            href: "/services/pediatric-podiatry",
-          },
-          { label: "Growing Heels (Sever's)", href: "/services/severs-disease" },
-          { label: "Flat Feet in Kids", href: "/services/childrens-flat-feet" },
-          { label: "Toe Walking", href: "/services/toe-walking" },
-          {
-            label: "Youth Sports Injuries",
-            href: "/services/youth-sports-injuries",
-          },
+          { label: "Pediatric Podiatry", href: "/services/pediatric-podiatry", icon: "heart", note: "Foot care from first steps to teens" },
+          { label: "Shin Splints", href: "/services/shin-splints", icon: "zap", note: "Shin pain from running and sport" },
+          { label: "In-Toeing & Out-Toeing", href: "/services/in-toeing-out-toeing", icon: "footprints", note: "Pigeon-toed feet that turn in or out" },
+          { label: "Growing Heels (Sever's)", href: "/services/severs-disease", icon: "pin", note: "Heel pain in active, growing kids" },
+          { label: "Other Growing Pains", href: "/services/growing-pains", icon: "trending-up", note: "Leg and foot aches, often at night" },
+          { label: "Knee, Hip & Back Pain", href: "/services/kids-knee-hip-back-pain", icon: "activity", note: "Activity-related pain in young athletes" },
+          { label: "Flat Feet in Kids", href: "/services/childrens-flat-feet", icon: "footprints", note: "Low arches and when to check them" },
+          { label: "Toe Walking", href: "/services/toe-walking", icon: "footprints", note: "Walking on tiptoes" },
+          { label: "Youth Sports Injuries", href: "/services/youth-sports-injuries", icon: "shield", note: "Sprains, overuse and growth issues" },
         ],
       },
       {
         title: "Heel & Arch",
+        blurb: "Heel pain, arch pain and tendon problems",
+        icon: "pin",
         links: [
-          { label: "Heel Pain", href: "/services/heel-pain" },
-          { label: "Plantar Fasciitis", href: "/services/plantar-fasciitis" },
-          { label: "Heel Spurs", href: "/services/heel-spurs" },
-          {
-            label: "Achilles Tendonitis",
-            href: "/services/achilles-tendonitis",
-          },
-          { label: "Flat Feet", href: "/services/flat-feet" },
+          { label: "Heel Pain", href: "/services/heel-pain", note: "Find the real source of the pain" },
+          { label: "Plantar Fasciitis", href: "/services/plantar-fasciitis", note: "Sharp pain with first steps" },
+          { label: "Heel Spurs", href: "/services/heel-spurs", note: "A bony growth on the heel" },
+          { label: "Achilles Tendonitis", href: "/services/achilles-tendonitis", note: "Pain at the back of the heel" },
+          { label: "Flat Feet", href: "/services/flat-feet", note: "Low arches and arch pain" },
         ],
       },
       {
         title: "Toes & Forefoot",
+        blurb: "Toe, nail and ball-of-foot problems",
+        icon: "footprints",
         links: [
-          { label: "Bunions", href: "/services/bunions" },
-          { label: "Hammer Toe", href: "/services/hammer-toe" },
-          { label: "Neuroma", href: "/services/neuroma" },
-          { label: "Ingrown Toenail", href: "/services/ingrown-toenail" },
-          { label: "Athlete's Foot", href: "/services/athletes-foot" },
+          { label: "Bunions", href: "/services/bunions", note: "A bump at the base of the big toe" },
+          { label: "Hammer Toe", href: "/services/hammer-toe", note: "A toe that bends or curls" },
+          { label: "Neuroma", href: "/services/neuroma", note: "Burning pain between the toes" },
+          { label: "Ingrown Toenail", href: "/services/ingrown-toenail", note: "A nail growing into the skin" },
+          { label: "Athlete's Foot", href: "/services/athletes-foot", note: "Itchy, peeling skin on the feet" },
         ],
       },
       {
         title: "Sports & Treatment",
+        blurb: "Care for athletes and active people",
+        icon: "activity",
         links: [
-          { label: "Sports Medicine", href: "/services/sports-medicine" },
-          { label: "Orthotics", href: "/services/orthotics" },
-          { label: "Biomechanics", href: "/services/biomechanics" },
-          { label: "Shin Splints", href: "/services/shin-splints" },
-          { label: "Trauma", href: "/services/trauma" },
+          { label: "Sports Medicine", href: "/services/sports-medicine", note: "Treat and prevent sports injuries" },
+          { label: "Orthotics", href: "/services/orthotics", note: "Custom inserts made for your feet" },
+          { label: "Biomechanics", href: "/services/biomechanics", note: "How your body moves, step by step" },
+          { label: "Shin Splints", href: "/services/shin-splints", note: "Shin pain from running" },
+          { label: "Trauma", href: "/services/trauma", note: "Sprains, breaks and sudden injuries" },
         ],
       },
       {
         title: "Specialized Care",
+        blurb: "Pain linked to joints and the back",
+        icon: "shield",
         links: [
-          { label: "Low Back Pain", href: "/services/low-back-pain" },
-          {
-            label: "Arthritic Foot & Ankle Care",
-            href: "/services/arthritic-foot-ankle-care",
-          },
+          { label: "Low Back Pain", href: "/services/low-back-pain", note: "When feet and posture add to back pain" },
+          { label: "Arthritic Foot & Ankle Care", href: "/services/arthritic-foot-ankle-care", note: "Comfort for stiff, sore joints" },
         ],
       },
     ],

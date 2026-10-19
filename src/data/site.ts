@@ -108,6 +108,34 @@ export type FlipItem = {
 
 export const conditions: FlipItem[] = [
   {
+    title: "Pediatric Podiatry",
+    excerpt:
+      "Foot and ankle care for babies, kids and teens. We check growth, walking and sports pain so young feet stay strong.",
+    href: "/services/pediatric-podiatry",
+    img: "/images/services/thumb/pediatric-podiatry.webp",
+  },
+  {
+    title: "Shin Splints",
+    excerpt:
+      "Pain along the front of the lower leg from running and jumping. We find the cause and keep you training safely.",
+    href: "/services/shin-splints",
+    img: "/images/services/thumb/shin-splints.webp",
+  },
+  {
+    title: "Knee, Hip & Back Pain",
+    excerpt:
+      "Activity-related pain that often starts in the feet and legs. We check how you move and fix the root cause.",
+    href: "/services/kids-knee-hip-back-pain",
+    img: "/images/services/thumb/kids-knee-hip-back-pain.webp",
+  },
+  {
+    title: "Youth Sports Injuries",
+    excerpt:
+      "Sprains, heel pain and overuse injuries in young athletes. Quick care helps them get back in the game.",
+    href: "/services/youth-sports-injuries",
+    img: "/images/services/thumb/youth-sports-injuries.webp",
+  },
+  {
     title: "Heel Pain",
     excerpt:
       "Sharp or aching pain under the heel can stop you in your tracks. We find the cause and build a plan to get you moving again.",
@@ -348,6 +376,10 @@ export const cryderman = {
       place: "Rochester General Hospital",
       detail:
         "Comprehensive surgical residency in Rochester, New York. Chief Resident in her final year.",
+    },
+    {
+      place: "Washington Foot & Ankle Sports Medicine",
+      detail: "Current role: board certified podiatrist.",
     },
   ],
   offDuty:

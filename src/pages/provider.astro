@@ -90,8 +90,11 @@ const jsonLd = [
           <p class="mt-4 text-lg text-muted">{cryderman.focus}</p>
           <h3 class="mt-10 font-serif text-2xl text-navy-900">Her path</h3>
           <ol class="mt-4 space-y-3 border-l-2 border-ember-500/40 pl-5">
-            {cryderman.journey.map((j) => (
-              <li>
+            {cryderman.journey.map((j, i) => (
+              <li class="relative">
+                {i === cryderman.journey.length - 1 && (
+                  <span aria-hidden="true" class="absolute top-1.5 -left-[1.9rem] size-3 rounded-full bg-ember-500 ring-4 ring-white" />
+                )}
                 <p class="font-semibold text-navy-900">{j.place}</p>
                 <p class="text-sm text-muted">{j.detail}</p>
               </li>
