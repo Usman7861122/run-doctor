@@ -40,6 +40,16 @@ import { practice } from "@/data/site";
     </a>
   </div>
 
+  <!-- Round logo: ring turns and mark floats as you scroll (desktop) -->
+  <div
+    id="hero-badge"
+    aria-hidden="true"
+    class="pointer-events-none absolute top-1/2 right-[6%] hidden aspect-square w-[min(34vw,30rem)] -translate-y-[45%] lg:block xl:right-[9%]"
+  >
+    <img id="hero-ring" src="/logos/rundoctor-ring-white.svg" alt="" width="1000" height="1000" class="absolute inset-0 size-full will-change-transform drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]" />
+    <img id="hero-mark" src="/logos/rundoctor-mark-orange.png" alt="" width="900" height="900" class="absolute top-[26.2%] left-[27.2%] w-[45.6%] will-change-transform drop-shadow-[0_4px_18px_rgba(0,0,0,0.4)]" />
+  </div>
+
   <!-- Rating badge -->
   <div class="absolute right-8 bottom-10 hidden items-center gap-4 rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-white backdrop-blur-md lg:flex">
     <div class="flex text-ember-400">
@@ -62,5 +72,24 @@ import { practice } from "@/data/site";
   if (video && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     video.removeAttribute("autoplay");
     video.pause();
+  }
+  // Scroll motion: the ring turns, the mark drifts and the badge fades out.
+  const badge = document.getElementById("hero-badge");
+  const ring = document.getElementById("hero-ring");
+  const mark = document.getElementById("hero-mark");
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (badge && ring && mark && !still) {
+    let ticking = false;
+    const update = () => {
+      const y = Math.min(window.scrollY, window.innerHeight * 1.2);
+      ring.style.transform = `rotate(${y * 0.22}deg)`;
+      mark.style.transform = `translateY(${y * -0.06}px) rotate(${y * -0.03}deg) scale(${1 + y * 0.0003})`;
+      badge.style.opacity = String(Math.max(0, 1 - y / (window.innerHeight * 0.9)));
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
   }
 </script>
