@@ -1,0 +1,87 @@
+# Builds the Astro site and uploads it to the S3 bucket on every push to main.
+# Needs 2 GitHub secrets (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+# and 2 GitHub variables (AWS_REGION, S3_BUCKET). See the setup steps.
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-s3
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      BUCKET: ${{ vars.S3_BUCKET }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Connect to AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload files (images, css, js)
+        run: |
+          # Hashed build files never change, so browsers can keep them for a year.
+          aws s3 sync dist/_astro "s3://$BUCKET/_astro" \
+            --cache-control "public,max-age=31536000,immutable" --delete
+          # Everything else except pages: keep for one day.
+          aws s3 sync dist "s3://$BUCKET" \
+            --exclude "*.html" --exclude "_astro/*" \
+            --cache-control "public,max-age=86400" --delete
+
+      - name: Upload pages (clean URLs like /about)
+        run: |
+          # S3 website hosting does not hide ".html". So each page is uploaded twice:
+          # as about.html and as "about", so that /about works.
+          : > keys.txt
+          cd dist
+          find . -name '*.html' | sed 's|^\./||' | sort | while read -r f; do
+            put() {
+              aws s3 cp "$f" "s3://$BUCKET/$1" --only-show-errors \
+                --content-type "text/html; charset=utf-8" \
+                --cache-control "public,max-age=0,must-revalidate"
+              echo "$1" >> ../keys.txt
+            }
+            put "$f"
+            case "$f" in
+              index.html|404.html) ;;
+              */index.html) put "${f%/index.html}" ;;
+              *.html) put "${f%.html}" ;;
+            esac
+          done
+          cd ..
+          # Remove old pages that no longer exist.
+          aws s3api list-objects-v2 --bucket "$BUCKET" --query 'Contents[].Key' --output text \
+            | tr '\t' '\n' | grep -v '^_astro/' | grep -v '\.[A-Za-z0-9]\+$' | grep -v '^$' \
+            | sort > old_pages.txt || true
+          sort keys.txt > new_pages.txt
+          comm -23 old_pages.txt new_pages.txt | while read -r k; do
+            aws s3 rm "s3://$BUCKET/$k" --only-show-errors
+          done
+          # Old .html copies too.
+          aws s3api list-objects-v2 --bucket "$BUCKET" --query 'Contents[].Key' --output text \
+            | tr '\t' '\n' | grep '\.html$' | sort > old_html.txt || true
+          comm -23 old_html.txt new_pages.txt | while read -r k; do
+            aws s3 rm "s3://$BUCKET/$k" --only-show-errors
+          done
