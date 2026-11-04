@@ -3,8 +3,8 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
-// Production address (used for canonical URLs and the sitemap).
-// CHANGE to the real domain before launch, or build with SITE_URL=https://yourdomain.com
+// Production address (used for canonical URLs, sitemap, robots.txt and schema).
+// Override with SITE_URL=... only for test builds.
 // @ts-ignore
 const site = process.env.SITE_URL ?? "https://www.rundoctor.com";
 

@@ -26,10 +26,11 @@ const {
 } = Astro.props;
 
 const base = Astro.site ?? new URL(siteUrl);
-const path =
-  Astro.url.pathname.length > 1
-    ? Astro.url.pathname.replace(/\/$/, "")
-    : Astro.url.pathname;
+// Pages are built as about.html, but the live address is /about, so strip ".html".
+const cleaned = Astro.url.pathname
+  .replace(/(^|\/)index\.html$/, "$1")
+  .replace(/\.html$/, "");
+const path = cleaned.length > 1 ? cleaned.replace(/\/$/, "") : "/";
 const canonical = new URL(path, base).href;
 const ogImage = new URL(image, base).href;
 const schema = graph([clinicSchema, websiteSchema, ...jsonLd]);
@@ -40,6 +41,10 @@ const schema = graph([clinicSchema, websiteSchema, ...jsonLd]);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="google-site-verification"
+      content="4mWXPdBgJQTR2m-xM69XadQi2Jfd4HSQg3TQCbYJCUE"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

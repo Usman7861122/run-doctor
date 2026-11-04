@@ -9,8 +9,7 @@
 const u = (id: string, w = 1200) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
 
-/** Production address of the site. Used for canonical URLs, sitemap and schema.
- *  CHANGE THIS to the real domain before launch (or set SITE_URL when building). */
+/** Production address of the site. Used for canonical URLs, sitemap and schema. */
 export const siteUrl = import.meta.env.SITE ?? "https://www.rundoctor.com";
 /** Shown on service pages and in the sitemap (YYYY-MM-DD). */
 export const lastUpdated = "2026-10-05";
