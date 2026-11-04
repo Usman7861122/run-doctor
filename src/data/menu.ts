@@ -32,7 +32,7 @@ export type DropMenu = {
   aside?: { title: string; text: string; cta: MenuLink };
 };
 
-export type PlainLink = { kind: "link"; label: string; href: string };
+export type PlainLink = { kind: "link"; label: string; href: string; external?: boolean };
 
 export type MenuItem = DropMenu | PlainLink;
 
@@ -67,7 +67,7 @@ export const menu: MenuItem[] = [
     aside: {
       title: "New patient?",
       text: "Most visits start with a full biomechanical exam and gait analysis.",
-      cta: { label: "Book a visit", href: "/#contact" },
+      cta: { label: "Book a visit", href: "https://l.klara.com/RMc47XV4DhKeJncQ" },
     },
   },
   {
@@ -166,5 +166,5 @@ export const menu: MenuItem[] = [
     ],
   },
   { kind: "link", label: "Blog", href: "/#blog" },
-  { kind: "link", label: "Contact", href: "/#contact" },
+  { kind: "link", label: "Contact", href: "https://l.klara.com/RMc47XV4DhKeJncQ", external: true },
 ];

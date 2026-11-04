@@ -35,7 +35,7 @@ const year = new Date().getFullYear();
         <ul class="mt-5 grid grid-cols-2 gap-2 md:grid-cols-1">
           {nav.map((n) => (
             <li>
-              <a href={n.href} class="inline-block py-1 hover:text-ember-400">
+              <a href={n.href} class="inline-block py-1 hover:text-ember-400" {...(n.external ? { target: "_blank", rel: "noopener" } : {})}>
                 {n.label}
               </a>
             </li>
@@ -97,7 +97,7 @@ const year = new Date().getFullYear();
       Call Us
     </a>
     <a
-      href="/#contact"
+      href="https://l.klara.com/RMc47XV4DhKeJncQ" target="_blank" rel="noopener"
       class="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-ember-500 px-4 text-sm font-semibold text-navy-950 shadow-lg shadow-ember-500/30 active:bg-ember-400"
     >
       Book Appointment
@@ -106,7 +106,7 @@ const year = new Date().getFullYear();
 </div>
 
 <script>
-  // Hide the bar while the contact form is on screen, so it never covers the form.
+  // Hide the bar while the contact section is on screen.
   const bar = document.getElementById("sticky-cta");
   const contact = document.getElementById("contact");
   if (bar && contact && "IntersectionObserver" in window) {

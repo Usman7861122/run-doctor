@@ -20,6 +20,7 @@ export const practice = {
   tagline: "Podiatry & Sports Medicine Physicians in Kirkland, WA",
   phone: "425-899-3234",
   phoneHref: "tel:+14258993234",
+  bookingUrl: "https://l.klara.com/RMc47XV4DhKeJncQ",
   address: {
     line1: "12911 120th Ave. NE, Suite C-50",
     line2: "Kirkland, WA 98034",
@@ -42,7 +43,7 @@ export const nav = [
   { label: "Physicians", href: "/#physicians" },
   { label: "Insurance", href: "/#insurance" },
   { label: "Blog", href: "/#blog" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "https://l.klara.com/RMc47XV4DhKeJncQ", external: true },
 ];
 
 export const images = {

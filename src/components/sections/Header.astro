@@ -41,7 +41,7 @@ const ext = (external?: boolean) =>
         {menu.map((item, i) =>
           item.kind === "link" ? (
             <li>
-              <a href={item.href} class="nav-trigger">
+              <a href={item.href} class="nav-trigger" {...ext(item.external)}>
                 {item.label}
               </a>
             </li>
@@ -181,6 +181,8 @@ const ext = (external?: boolean) =>
                         </div>
                         <a
                           href={item.aside.cta.href}
+                          target="_blank"
+                          rel="noopener"
                           class="btn-primary mt-6 min-h-11 px-5"
                         >
                           {item.aside.cta.label}
@@ -204,7 +206,7 @@ const ext = (external?: boolean) =>
         <Icon name="phone" class="size-4 text-ember-400" />
         {practice.phone}
       </a>
-      <a href="/#contact" class="btn-primary hidden sm:inline-flex">
+      <a href="https://l.klara.com/RMc47XV4DhKeJncQ" target="_blank" rel="noopener" class="btn-primary hidden sm:inline-flex">
         Book Now
       </a>
       <button
@@ -250,6 +252,7 @@ const ext = (external?: boolean) =>
             <li>
               <a
                 href={item.href}
+                {...ext(item.external)}
                 class="mobile-link block py-4 font-serif text-3xl text-white"
               >
                 {item.label}
@@ -339,7 +342,7 @@ const ext = (external?: boolean) =>
         )}
       </ul>
       <div class="mt-8 flex flex-col gap-3">
-        <a href="/#contact" class="btn-primary mobile-link">
+        <a href="https://l.klara.com/RMc47XV4DhKeJncQ" target="_blank" rel="noopener" class="btn-primary mobile-link">
           Book an Appointment
         </a>
         <a href={practice.phoneHref} class="btn-ghost-light">

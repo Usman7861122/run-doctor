@@ -31,7 +31,7 @@ export default function HeroText() {
         to stay active.
       </motion.p>
       <motion.div {...item(0.6)} className="mt-10 hidden flex-wrap gap-4 lg:flex">
-        <a href="#contact" className="btn-primary">
+        <a href="https://l.klara.com/RMc47XV4DhKeJncQ" target="_blank" rel="noopener" className="btn-primary">
           Book an Appointment
         </a>
         <a href="#physicians" className="btn-ghost-light">
