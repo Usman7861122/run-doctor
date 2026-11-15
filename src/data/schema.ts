@@ -13,6 +13,13 @@ export const clinicSchema = {
   image: abs("/images/og-default.jpg"),
   logo: abs("/logos/rundoctor-logo-amber.png"),
   medicalSpecialty: ["Podiatric", "SportsMedicine"],
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(practice.address.mapsQuery)}`,
+  isAcceptingNewPatients: true,
+  potentialAction: {
+    "@type": "ReserveAction",
+    name: "Book an appointment",
+    target: practice.bookingUrl,
+  },
   address: {
     "@type": "PostalAddress",
     streetAddress: practice.address.line1,

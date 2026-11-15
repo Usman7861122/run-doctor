@@ -53,7 +53,7 @@ import { physicians } from "@/data/site";
                   <Icon name="calendar" class="size-4" />
                   Book with Dr. {d.name.split(" ")[1].replace(",", "")}
                 </a>
-                <a href="#" class="btn-outline">
+                <a href={`/provider#${d.name.includes("Maurer") ? "maurer" : "cryderman"}`} class="btn-outline">
                   Full Bio
                 </a>
               </div>

@@ -144,16 +144,17 @@ export const menu: MenuItem[] = [
   {
     kind: "drop",
     label: "Patients",
-    href: "/contents/patient-forms",
+    href: "https://l.klara.com/RMc47XV4DhKeJncQ",
     links: [
       {
         label: "Patient Forms",
-        href: "/contents/patient-forms",
+        href: "https://l.klara.com/RMc47XV4DhKeJncQ",
         note: "Fill out before your visit",
+        external: true,
       },
       {
         label: "Educational Videos",
-        href: "/contents/educational-videos",
+        href: "/services",
         note: "Learn about your condition",
       },
       { label: "Insurance", href: "/#insurance", note: "Plans we accept" },

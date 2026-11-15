@@ -62,6 +62,8 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
             <img
               src={p.img}
               alt={p.title}
+              width={900}
+              height={600}
               loading="lazy"
               decoding="async"
               onError={(e) => (e.currentTarget.src = FALLBACK)}
