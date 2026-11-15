@@ -1,3 +1,4 @@
+import { hasPosts } from "./blog";
 /**
  * All homepage content lives here, so text can be edited without touching layout.
  * Images are placeholders (Unsplash). If an image fails to load, the site shows
@@ -42,7 +43,7 @@ export const nav = [
   { label: "Treatments", href: "/#treatments" },
   { label: "Physicians", href: "/#physicians" },
   { label: "Insurance", href: "/#insurance" },
-  { label: "Blog", href: "/#blog" },
+  { label: "Blog", href: hasPosts ? "/blog" : "/#blog" },
   { label: "Contact", href: "https://l.klara.com/RMc47XV4DhKeJncQ", external: true },
 ];
 

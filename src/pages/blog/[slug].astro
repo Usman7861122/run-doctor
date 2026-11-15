@@ -1,0 +1,131 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/sections/Header.astro";
+import Footer from "@/components/sections/Footer.astro";
+import CtaBand from "@/components/sections/CtaBand.astro";
+import { breadcrumbs } from "@/data/schema";
+import { posts, fmtDate, postDescription, postTitle } from "@/data/blog";
+import { services } from "@/data/services";
+import { practice, siteUrl } from "@/data/site";
+
+export function getStaticPaths() {
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, prev: posts[i + 1], next: posts[i - 1] },
+  }));
+}
+
+const { post, prev, next } = Astro.props;
+const service = post.service ? services.find((s) => s.slug === post.service) : undefined;
+const related = posts
+  .filter((p) => p.slug !== post.slug && p.category && p.category === post.category)
+  .slice(0, 3);
+const url = new URL(`/blog/${post.slug}`, siteUrl).href;
+const description = postDescription(post);
+
+const jsonLd = [
+  breadcrumbs([
+    { name: "Home", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: post.title, path: `/blog/${post.slug}` },
+  ]),
+  {
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    mainEntityOfPage: url,
+    headline: post.title,
+    description,
+    ...(post.date ? { datePublished: post.date } : {}),
+    dateModified: post.modified ?? post.date ?? "2026-11-16",
+    inLanguage: "en-US",
+    ...(post.image ? { image: new URL(post.image, siteUrl).href } : {}),
+    author: { "@id": `${siteUrl}/#clinic` },
+    publisher: { "@id": `${siteUrl}/#clinic` },
+    isPartOf: { "@id": `${siteUrl}/#website` },
+  },
+];
+---
+
+<BaseLayout
+  title={postTitle(post)}
+  description={description}
+  image={post.image}
+  type="article"
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="main">
+    <section class="bg-navy-950 pt-36 pb-14 text-white sm:pt-44 sm:pb-20">
+      <div class="container-x max-w-4xl">
+        <nav aria-label="Breadcrumb" class="text-sm text-white/70">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <li><a href="/" class="hover:text-white">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/blog" class="hover:text-white">Blog</a></li>
+          </ol>
+        </nav>
+        <p class="eyebrow mt-8 text-ember-400!">{post.category ?? "Foot Care"}</p>
+        <h1 class="mt-4 text-4xl leading-[1.1] text-white! sm:text-5xl">{post.title}</h1>
+        <p class="mt-5 text-white/70">
+          {post.date ? <><time datetime={post.date}>{fmtDate(post.date)}</time> · </> : null}{practice.shortName}
+        </p>
+      </div>
+    </section>
+
+    <article class="section bg-white">
+      <div class="container-x max-w-3xl">
+        {post.image && (
+          <img src={post.image} alt={post.title} width="1200" height="675" class="mb-10 w-full rounded-3xl object-cover" />
+        )}
+        <div class="post-body" set:html={post.html} />
+
+        {service && (
+          <aside class="mt-12 rounded-3xl bg-cream p-8">
+            <p class="eyebrow">Related treatment</p>
+            <h2 class="mt-2 text-2xl">{service.title}</h2>
+            <p class="mt-3 text-muted">{service.summary}</p>
+            <a href={`/services/${service.slug}`} class="btn-outline mt-5">Learn about {service.title.toLowerCase()}</a>
+          </aside>
+        )}
+
+        <div class="mt-12 rounded-3xl bg-navy-900 p-8 text-white">
+          <p class="font-serif text-2xl">Still hurting? Let us take a look.</p>
+          <p class="mt-2 text-white/75">Book with Dr. Maurer or Dr. Cryderman in Kirkland, or call {practice.phone}.</p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a href={practice.bookingUrl} target="_blank" rel="noopener" class="btn-primary">Book an Appointment</a>
+            <a href={practice.phoneHref} class="btn-ghost-light">Call {practice.phone}</a>
+          </div>
+        </div>
+
+        {related.length > 0 && (
+          <div class="mt-14">
+            <h2 class="text-2xl">More on this topic</h2>
+            <ul class="mt-4 space-y-2">
+              {related.map((p) => <li><a href={`/blog/${p.slug}`} class="font-semibold hover:text-ember-600">{p.title}</a></li>)}
+            </ul>
+          </div>
+        )}
+
+        <nav class="mt-12 flex flex-col justify-between gap-4 border-t border-navy-900/10 pt-6 text-sm sm:flex-row" aria-label="More articles">
+          {prev ? <a href={`/blog/${prev.slug}`} class="hover:text-ember-600">&larr; {prev.title}</a> : <span />}
+          {next ? <a href={`/blog/${next.slug}`} class="hover:text-ember-600 sm:text-right">{next.title} &rarr;</a> : <span />}
+        </nav>
+      </div>
+    </article>
+    <CtaBand />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .post-body { font-size: 1.125rem; line-height: 1.75; color: var(--color-navy-900, #0f2744); }
+  .post-body > * + * { margin-top: 1.25rem; }
+  .post-body h2 { font-family: var(--font-serif, serif); font-size: 1.875rem; line-height: 1.2; margin-top: 2.5rem; }
+  .post-body h3 { font-family: var(--font-serif, serif); font-size: 1.5rem; line-height: 1.25; margin-top: 2rem; }
+  .post-body a { color: var(--color-ember-600, #c2570c); text-decoration: underline; }
+  .post-body ul { list-style: disc; padding-left: 1.5rem; }
+  .post-body ol { list-style: decimal; padding-left: 1.5rem; }
+  .post-body li + li { margin-top: 0.4rem; }
+  .post-body img { max-width: 100%; height: auto; border-radius: 1rem; }
+  .post-body blockquote { border-left: 4px solid var(--color-ember-500, #e27229); padding-left: 1rem; font-style: italic; }
+</style>

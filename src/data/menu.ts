@@ -1,3 +1,4 @@
+import { hasPosts } from "./blog";
 /**
  * Main menu, based on the rundoctor.com menu.
  * Page URLs follow the old site's slugs (/services/heel-pain etc.) so old
@@ -166,6 +167,6 @@ export const menu: MenuItem[] = [
       },
     ],
   },
-  { kind: "link", label: "Blog", href: "/#blog" },
+  { kind: "link", label: "Blog", href: hasPosts ? "/blog" : "/#blog" },
   { kind: "link", label: "Contact", href: "https://l.klara.com/RMc47XV4DhKeJncQ", external: true },
 ];

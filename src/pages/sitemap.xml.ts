@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { services } from "@/data/services";
 import { lastUpdated } from "@/data/site";
+import { posts, hasPosts } from "@/data/blog";
 
 export const GET: APIRoute = ({ site }) => {
   const base = site ?? new URL("https://www.rundoctor.com");
@@ -10,6 +11,8 @@ export const GET: APIRoute = ({ site }) => {
     { path: "/about", priority: "0.7" },
     { path: "/provider", priority: "0.7" },
     { path: "/testimonials", priority: "0.6" },
+    ...(hasPosts ? [{ path: "/blog", priority: "0.7", lastmod: posts[0].modified ?? posts[0].date }] : []),
+    ...posts.map((p) => ({ path: `/blog/${p.slug}`, priority: "0.6", lastmod: (p.modified ?? p.date ?? lastUpdated).slice(0, 10) })),
     ...services.map((s) => ({
       path: `/services/${s.slug}`,
       // Kids pages are the featured focus, so they get a slight boost
@@ -19,7 +22,7 @@ export const GET: APIRoute = ({ site }) => {
   const urls = pages
     .map(
       (p) =>
-        `  <url>\n    <loc>${new URL(p.path, base).href}</loc>\n    <lastmod>${lastUpdated}</lastmod>\n    <priority>${p.priority}</priority>\n  </url>`,
+        `  <url>\n    <loc>${new URL(p.path, base).href}</loc>\n    <lastmod>${(p as { lastmod?: string }).lastmod ?? lastUpdated}</lastmod>\n    <priority>${p.priority}</priority>\n  </url>`,
     )
     .join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
